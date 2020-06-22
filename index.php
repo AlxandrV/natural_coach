@@ -20,7 +20,7 @@ catch (Exeption $e){
 }
 
 // Login pour admin
-if(!isset($_SESSION['id_membre'])){
+if(!isset($_SESSION['id_admin'])){
 ?>
     <form action="identification.php" method="POST">
         <input type="text" name="login_admin" id="login" placeholder="login">
@@ -35,12 +35,16 @@ if(!isset($_SESSION['id_membre'])){
 }
 else{
     $excursion = $bdd -> query('SELECT * FROM  excursion');
-    while($donnees = $excursion -> fetch()){
-        echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.</p>';
-    }
-?>
-    <form action="ajout.php" method="POST" novaldate>
-        <p>jouter une nouvelle excursion :</p>
+    ?>
+    <form action="ajout.php" method="POST">
+    <?php
+        while($donnees = $excursion -> fetch()){
+            echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.<button type="submit" name="delete" value="' . $donnees['id'] . '">Supprimer</button></p>';
+        }
+    ?>
+    </form>
+    <form action="ajout.php" method="POST" id="update">
+        <p>Ajouter une nouvelle excursion :</p>
         <p>Nom de la randonnée <input type="text" name="nom_excursion" required></input>, date de départ <input type="date" name="date_depart" required></input>, date de retour <input type="date" name="date_arrivee" required></input>, point de départ <input type="text" name="point_depart" required></input>
         , point d'arrivée <input type="text" name="point_arrivee" required></input>, région de départ <input type="text" name="region_depart" required></input>, région d'arrivée <input type="text" name="region_arrivee" required></input>, tarif <input type="number" name="tarif" min="0" step="any" required></input></p>
         <input type="submit" value="Créer">
