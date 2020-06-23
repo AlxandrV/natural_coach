@@ -50,9 +50,9 @@ session_start();
             , point d'arrivée <input type="text" name="point_arrivee" required></input>, région de départ <input type="text" name="region_depart" required></input>, région d'arrivée <input type="text" name="region_arrivee" required></input>, tarif <input type="number" name="tarif" min="0" step="any" required></input></p>
             <input type="submit" value="Créer">
         </form>
-        <form action="membre.php" method="POST">
-            <button type="submit" name="randonneur" value="randonneur">Liste des randonneurs</button>
-            <button type="submit" name="guide" value="guide">Liste des guides</button>
+        <form action="membre.php">
+            <button type="submit" name="status" value="randonneur">Liste des randonneurs</button>
+            <button type="submit" name="status" value="guide">Liste des guides</button>
         </form>
     <?php
     }

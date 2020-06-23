@@ -37,12 +37,12 @@ if(!isset($_SESSION['id_admin'])){
     <form action="ajout.php" method="POST">
         <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Gréer un nouveau groupe"></p>
     </form>
-    <form action="gestion.php">
+    <form action="gestion.php" method="POST">
         <ul>
             <?php
             $i = 1;
             while($donnees = $req -> fetch()){
-                echo '<li>Groupe ' . $i . ', place maximum :' . $donnees['place_max'] . '<input type="submit" name="groupe" value="Voir les paricipants"></li>';
+                echo '<li>Groupe ' . $i . ', place maximum :' . $donnees['place_max'] . '<button type="submit" name="groupe" value="' . $donnees['id'] . '">Voir les paricipants</button></li>';
                 $i++;
             }
             ?>    

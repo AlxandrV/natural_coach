@@ -60,5 +60,35 @@ if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     $req = $bdd -> query('CREATE TABLE ' . $table_name . ' (id INT PRIMARY KEY NOT NULL,
     id_participant INT,
     fonction VARCHAR(20))');*/
+    header('Location: excursion.php?n=' . $id);
 }
-header('Location: index.php');
+
+// Ajout de randonneur
+if(isset($_POST['add_nom_randonneur']) && isset($_POST['add_prenom_randonneur'])){
+
+    $nom = $_POST['add_nom_randonneur'];
+    $prenom = $_POST['add_prenom_randonneur'];
+
+    $req = $bdd -> prepare('INSERT INTO randonneur(nom, prenom) VALUE(:nom, :prenom)');
+    $req -> execute(array('nom' => $nom, 'prenom' => $prenom));
+    $req -> closeCursor();
+
+    header('Location: membre.php?status=randonneur');
+}
+
+// Ajout de guide
+if(isset($_POST['add_nom_guide']) && isset($_POST['add_prenom_guide']) && isset($_POST['add_telephone_guide'])){
+
+    $nom = $_POST['add_nom_guide'];
+    $prenom = $_POST['add_prenom_guide'];
+    $telephone = $_POST['add_telephone_guide'];
+
+    $req = $bdd -> prepare('INSERT INTO guide(nom, prenom, num_tel) VALUE(:nom, :prenom, :telephone)');
+    $req -> execute(array('nom' => $nom, 'prenom' => $prenom, 'telephone' => $telephone));
+    $req -> closeCursor();
+    header('Location: membre.php?status=guide');
+}
+
+else{
+    //header('Location: index.php');
+}
