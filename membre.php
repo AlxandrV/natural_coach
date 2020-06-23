@@ -24,8 +24,8 @@ if(!isset($_POST) || !isset($_SESSION['id_admin'])){
     }
 
     $status = $_POST;
-    if(isset($status['membre'])){
-        $req = $bdd -> query('SELECT * FROM membre');
+    if(isset($status['randonneur'])){
+        $req = $bdd -> query('SELECT * FROM randonneur');
         while($donnees = $req -> fetch()){
             echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . '.</p>';
         }

@@ -40,7 +40,7 @@ session_start();
         <form action="ajout.php" method="POST">
         <?php
         while($donnees = $excursion -> fetch()){
-            echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.<button type="submit" name="delete" value="' . $donnees['id'] . '">Supprimer</button><a href="excursion.php?n=' . $donnees['id'] . '">Détails et groupe</a></p>';
+            echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '€.<button type="submit" name="delete" value="' . $donnees['id'] . '">Supprimer</button><a href="excursion.php?n=' . $donnees['id'] . '">Détails et groupe</a></p>';
         }
         ?>
         </form>
@@ -51,8 +51,8 @@ session_start();
             <input type="submit" value="Créer">
         </form>
         <form action="membre.php" method="POST">
-            <button type="submit" name="membre" value="membre">Voir des membre</button>
-            <button type="submit" name="guide" value="guide">Voir des guides</button>
+            <button type="submit" name="randonneur" value="randonneur">Liste des randonneurs</button>
+            <button type="submit" name="guide" value="guide">Liste des guides</button>
         </form>
     <?php
     }

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_GET['n']) || !isset($_SESSION['id_admin'])){
+if(!isset($_SESSION['id_admin'])){
     header('Location: index.php');
 }
 ?>
@@ -24,16 +24,29 @@ if(!isset($_GET['n']) || !isset($_SESSION['id_admin'])){
     }
 
     $id = $_GET['n'];
-    $req= $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
+    $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
     $req -> execute(array($id));
     while($donnees = $req -> fetch()){
-        echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.</p>';
+        echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '€.</p>';
     }
     $req -> closeCursor();
+
+    $req = $bdd -> prepare('SELECT * FROM groupe WHERE id_excursion = ?');
+    $req -> execute(array($id));
     ?>
     <form action="ajout.php" method="POST">
-        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Gréer un nouveau groupe">
-</p>
+        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Gréer un nouveau groupe"></p>
+    </form>
+    <form action="gestion.php">
+        <ul>
+            <?php
+            $i = 1;
+            while($donnees = $req -> fetch()){
+                echo '<li>Groupe ' . $i . ', place maximum :' . $donnees['place_max'] . '<input type="submit" name="groupe" value="Voir les paricipants"></li>';
+                $i++;
+            }
+            ?>    
+        </ul>    
     </form>
 </body>
 </html>

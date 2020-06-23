@@ -50,7 +50,7 @@ if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     $req -> closeCursor();
 
     // Récupération de l'id du groupe le nom de la table à créer
-    $req = $bdd -> query('SELECT id FROM groupe ORDER BY id DESC LIMIT 1');
+    /*$req = $bdd -> query('SELECT id FROM groupe ORDER BY id DESC LIMIT 1');
     $table_name = 'groupe';
     $donnees = $req -> fetch();
     $table_name .= $donnees['id'];
@@ -59,6 +59,6 @@ if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     // Création du groupe 
     $req = $bdd -> query('CREATE TABLE ' . $table_name . ' (id INT PRIMARY KEY NOT NULL,
     id_participant INT,
-    fonction VARCHAR(20))');
+    fonction VARCHAR(20))');*/
 }
 header('Location: index.php');
