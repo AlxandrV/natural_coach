@@ -32,11 +32,33 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
     $req -> closeCursor();
 }
 
-// SUpprime une entrée dans 'excursion'
-if(isset($_POST['delete']) && !empty($_POST['delete'])){
+// Supprime une entrée dans 'excursion'
+if(isset($_POST['delete'])){
     $id_to_delete = $_POST['delete'];
     $req = $bdd -> prepare('DELETE FROM excursion WHERE id = :id_delete');
     $req -> execute(array('id_delete' => $id_to_delete));
     $req -> closeCursor();
+}
+
+// Création de groupe
+if(isset($_POST['nombre_place']) && isset($_POST['id'])){
+    $place = $_POST['nombre_place'];
+    $id = $_POST['id'];
+    // Ajout dans liste de groupe 
+    $req = $bdd -> prepare('INSERT INTO groupe(id_excursion, place_max) VALUE(:id, :place)');
+    $req -> execute(array('id' => $id, 'place' => $place));
+    $req -> closeCursor();
+
+    // Récupération de l'id du groupe le nom de la table à créer
+    $req = $bdd -> query('SELECT id FROM groupe ORDER BY id DESC LIMIT 1');
+    $table_name = 'groupe';
+    $donnees = $req -> fetch();
+    $table_name .= $donnees['id'];
+    $req -> closeCursor();
+
+    // Création du groupe 
+    $req = $bdd -> query('CREATE TABLE ' . $table_name . ' (id INT PRIMARY KEY NOT NULL,
+    id_participant INT,
+    fonction VARCHAR(20))');
 }
 header('Location: index.php');

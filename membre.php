@@ -12,6 +12,7 @@ if(!isset($_POST) || !isset($_SESSION['id_admin'])){
     <title>Document</title>
 </head>
 <body>
+    <a href="index.php">Retour à l'acceuil</a>
     <?php
     // Connexion BDD
     try{
@@ -36,7 +37,7 @@ if(!isset($_POST) || !isset($_SESSION['id_admin'])){
         }
 
     }
-
+    $req -> closeCursor();
     ?>
 </body>
 </html>

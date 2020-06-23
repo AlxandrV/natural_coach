@@ -24,7 +24,7 @@ session_start();
     ?>
         <form action="identification.php" method="POST">
             <input type="text" name="login_admin" id="login" placeholder="login">
-            <input type="text" name="password_admin" id="password" placeholder="password">
+            <input type="password" name="password_admin" id="password" placeholder="password">
             <input type="submit" value="Valider">
         </form>
     <?php

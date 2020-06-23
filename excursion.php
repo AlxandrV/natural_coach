@@ -12,6 +12,7 @@ if(!isset($_GET['n']) || !isset($_SESSION['id_admin'])){
     <title>Document</title>
 </head>
 <body>
+    <a href="index.php">Retour à l'acceuil</a>
     <?php
     // Connexion BDD
     try{
@@ -28,9 +29,10 @@ if(!isset($_GET['n']) || !isset($_SESSION['id_admin'])){
     while($donnees = $req -> fetch()){
         echo '<p>Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.</p>';
     }
+    $req -> closeCursor();
     ?>
     <form action="ajout.php" method="POST">
-        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="submit" value="Gréer un nouveau groupe">
+        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Gréer un nouveau groupe">
 </p>
     </form>
 </body>
