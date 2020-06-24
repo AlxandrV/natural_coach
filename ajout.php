@@ -89,6 +89,28 @@ if(isset($_POST['add_nom_guide']) && isset($_POST['add_prenom_guide']) && isset(
     header('Location: membre.php?status=guide');
 }
 
+// Suppression de randonneur
+if(isset($_POST['delete_randonneur'])){
+
+    $id = $_POST['delete_randonneur'];
+
+    $req = $bdd -> prepare('DELETE FROM randonneur WHERE id = ?');
+    $req -> execute(array($id));
+    $req -> closeCursor();
+    header('Location: membre.php?status=randonneur');
+}
+
+// Suppression de guide
+if(isset($_POST['delete_guide'])){
+
+    $id = $_POST['delete_guide'];
+
+    $req = $bdd -> prepare('DELETE FROM guide WHERE id = ?');
+    $req -> execute(array($id));
+    $req -> closeCursor();
+    header('Location: membre.php?status=guide');
+}
+
 else{
-    //header('Location: index.php');
+    header('Location: index.php');
 }

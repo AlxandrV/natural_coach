@@ -31,12 +31,17 @@ if(!isset($_GET) || !isset($_SESSION['id_admin'])){
             <input type="text" name="add_prenom_randonneur" id="prenom" required>
             <input type="submit" value="Ajouter un randonneur">
         </form>
+
+        <form action="ajout.php" method="POST">
         <?php
-        $req = $bdd -> query('SELECT * FROM randonneur');
-        while($donnees = $req -> fetch()){
-            echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . '.</p>';
-        }
-        $req -> closeCursor();
+            $req = $bdd -> query('SELECT * FROM randonneur');
+            while($donnees = $req -> fetch()){
+                echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . '.<button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '">Supprimer</button></p>';
+            }
+            $req -> closeCursor();
+        ?>
+        </form>
+        <?php
     }
     if($status['status'] == 'guide'){
         ?>
@@ -46,13 +51,18 @@ if(!isset($_GET) || !isset($_SESSION['id_admin'])){
             <input type="tel" name="add_telephone_guide" id="add_telephone_guide" pattern="[0-9]{10}" required>
         <input type="submit" value="Ajouter un guide">
         </form>
+        <form action="ajout.php" method="POST">
+        
         <?php
         $req = $bdd -> query('SELECT * FROM guide');
         while($donnees = $req -> fetch()){
-            echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . ', numéro de téléphone : ' . $donnees['num_tel'] . '.</p>';
+            echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . ', numéro de téléphone : ' . $donnees['num_tel'] . '.<button type="submit" name="delete_guide" value="' . $donnees['id'] . '">Supprimer</button></p>';
         }
-
+        
         $req -> closeCursor();
+        ?>
+        </form>
+        <?php
     }
     ?>
 </body>

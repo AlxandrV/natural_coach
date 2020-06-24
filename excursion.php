@@ -35,7 +35,7 @@ if(!isset($_SESSION['id_admin'])){
     $req -> execute(array($id));
     ?>
     <form action="ajout.php" method="POST">
-        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Gréer un nouveau groupe"></p>
+        <p> Place max : <input type="text" name="nombre_place" id="nombre_place"><input type="hidden" name="id" value="<?php echo $_GET['n']?>"><input type="submit" value="Créer un nouveau groupe"></p>
     </form>
     <form action="gestion.php" method="POST">
         <ul>
