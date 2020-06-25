@@ -12,7 +12,7 @@ if(!isset($_SESSION['id_admin'])){
     <title>Document</title>
 </head>
 <body>
-    <a href="index.php">Retour à l'acceuil</a>
+    <p><a href="index.php">Retour à l'acceuil</a></p>
     <?php
     // Connexion BDD
     try{
