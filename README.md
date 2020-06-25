@@ -1,2 +1,2 @@
 # natural_coach
-Gestionnaire de randonnée, avec espace abonné
+Gestionnaire de randonnée, avec espace administrateur
