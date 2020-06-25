@@ -28,7 +28,11 @@ if(!isset($_SESSION['id_admin'])){
     $req -> execute(array($id));
     $donnees = $req -> fetch();
     var_dump($donnees);
-    echo serialize($donnees['id']);
+    $array_randonneur = unserialize($donnees['id_randonneur']);
+    var_dump($array_randonneur);
+    $array_guide = unserialize($donnees['id_guide']);
+    var_dump($array_guide);
+
 
     ?>
 </body>

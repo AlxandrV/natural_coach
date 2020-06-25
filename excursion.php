@@ -42,7 +42,7 @@ if(!isset($_SESSION['id_admin'])){
             <?php
             $i = 1;
             while($donnees = $req -> fetch()){
-                echo '<li>Groupe ' . $i . ', place maximum :' . $donnees['place_max'] . '<button type="submit" name="groupe" value="' . $donnees['id'] . '">Voir les paricipants</button></li>';
+                echo '<li>Groupe ' . $i . ', place maximum : ' . $donnees['place_max'] . ' <button type="submit" name="groupe" value="' . $donnees['id'] . '">Voir les paricipants</button></li>';
                 $i++;
             }
             ?>    

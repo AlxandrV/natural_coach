@@ -27,8 +27,8 @@ if(!isset($_GET) || !isset($_SESSION['id_admin'])){
     if($status['status'] == 'randonneur'){
         ?>
         <form action="ajout.php" id="membre"method="POST">
-            <input type="text" name="add_nom_randonneur" id="nom" required>
-            <input type="text" name="add_prenom_randonneur" id="prenom" required>
+            <input type="text" name="add_nom_randonneur" id="nom" placeholder="Nom" required>
+            <input type="text" name="add_prenom_randonneur" id="prenom" placeholder="Prénom" required>
             <input type="submit" value="Ajouter un randonneur">
         </form>
 
@@ -46,9 +46,9 @@ if(!isset($_GET) || !isset($_SESSION['id_admin'])){
     if($status['status'] == 'guide'){
         ?>
         <form action="ajout.php" id="membre"method="POST">
-            <input type="text" name="add_nom_guide" id="nom" required>
-            <input type="text" name="add_prenom_guide" id="prenom" required>
-            <input type="tel" name="add_telephone_guide" id="add_telephone_guide" pattern="[0-9]{10}" required>
+            <input type="text" name="add_nom_guide" id="nom" placeholder="Nom" required>
+            <input type="text" name="add_prenom_guide" id="prenom" placeholder="Prénom" required>
+            <input type="tel" name="add_telephone_guide" id="add_telephone_guide" pattern="[0-9]{10}" placeholder="Tel : xxxxxxxxxx" required>
         <input type="submit" value="Ajouter un guide">
         </form>
         <form action="ajout.php" method="POST">
