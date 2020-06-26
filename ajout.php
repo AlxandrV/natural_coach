@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Connexion BDD
 try{
     $bdd = new PDO('mysql:host=localhost;dbname=natural_coach;charset=utf8', 'vagrantdb', 'vagrantdb',
@@ -44,9 +46,10 @@ if(isset($_POST['delete'])){
 if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     $place = $_POST['nombre_place'];
     $id = $_POST['id'];
+    $id_default = '0';
     // Ajout dans liste de groupe 
-    $req = $bdd -> prepare('INSERT INTO groupe(id_excursion, place_max) VALUE(:id, :place)');
-    $req -> execute(array('id' => $id, 'place' => $place));
+    $req = $bdd -> prepare('INSERT INTO groupe(id_excursion, place_max, id_randonneur, id_guide) VALUE(:id, :place, :randonneur, :guide)');
+    $req -> execute(array('id' => $id, 'place' => $place, 'randonneur' => $id_default, 'guide' => $id_default));
     $req -> closeCursor();
 
     // Récupération de l'id du groupe le nom de la table à créer
@@ -110,6 +113,29 @@ if(isset($_POST['delete_guide'])){
     $req -> closeCursor();
     header('Location: membre.php?status=guide');
 }
+
+// Ajout randonneur à un groupe
+if(isset($_POST['add_randonneur_group']) && isset($_SESSION['id_group'])){
+    $id_randonneur = $_POST['add_randonneur_group'];
+    $id_group = $_SESSION['id_group'];
+
+    $req = $bdd -> prepare('INSERT INTO randonneur_groupe VALUE(:id_groupe, :id_randonneur)');
+    $req -> execute(array('id_groupe' => $id_group, 'id_randonneur' => $id_randonneur));
+    $req -> closeCursor();
+    header('Location: index.php');
+}
+
+// Ajout guide à un groupe
+if(isset($_POST['add_guide_group']) && isset($_SESSION['id_group'])){
+    $id_guide = $_POST['add_guide_group'];
+    $id_group = $_SESSION['id_group'];
+
+    $req = $bdd -> prepare('INSERT INTO guide_groupe VALUE(:id_groupe, :id_guide)');
+    $req -> execute(array('id_groupe' => $id_group, 'id_guide' => $id_guide));
+    $req -> closeCursor();
+    header('Location: index.php');
+}
+
 
 else{
     header('Location: index.php');
