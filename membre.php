@@ -22,8 +22,11 @@ if(!isset($_SESSION['id_admin'])){
     catch (Exeption $e){
         die('Erreur : ' . $e -> getmessage());
     }
+
+    $id_groupe = $_SESSION['id_group'];
     
     $status = $_GET;
+    // Si $_GET randonneur
     if($status['status'] == 'randonneur'){
         if(!isset($_POST['add_randonneur'])){
             ?>
@@ -38,18 +41,27 @@ if(!isset($_SESSION['id_admin'])){
         $req = $bdd -> query('SELECT * FROM randonneur');
         while($donnees = $req -> fetch()){
             echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'];
-            if(isset($_POST['add_randonneur'])){
+
+            // Vérifie si déjà inscrit à un groupe
+            $verification_inscription = $bdd -> prepare('SELECT r_grp.id_groupe AS id_groupe FROM randonneur AS r INNER JOIN randonneur_groupe AS r_grp WHERE r.id = ' . $donnees['id'] . ' AND r_grp.id_groupe = ?');
+            $verification_inscription -> execute(array($id_groupe));
+            $validate = $verification_inscription -> fetch();
+    
+            if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
                 echo '. <button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '">Ajouter</button></p>';
             }
-            else{
+            elseif(!isset($_POST['add_randonneur'])){
                 echo '. <button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '">Supprimer</button></p>';
             }
         }
+        $verification_inscription -> closeCursor();
         $req -> closeCursor();
         ?>
         </form>
         <?php
     }
+
+    // Si $_GET guide
     if($status['status'] == 'guide'){
         if(!isset($_POST['add_guide'])){
         ?>
@@ -65,11 +77,17 @@ if(!isset($_SESSION['id_admin'])){
         
         $req = $bdd -> query('SELECT * FROM guide');
         while($donnees = $req -> fetch()){
+
+            // Vérifie si déjà inscrit à un groupe
+            $verification_inscription = $bdd -> prepare('SELECT g_grp.id_groupe AS id_groupe FROM guide AS g INNER JOIN guide_groupe AS g_grp WHERE g.id = ' . $donnees['id'] . ' AND g_grp.id_groupe = ?');
+            $verification_inscription -> execute(array($id_groupe));
+            $validate = $verification_inscription -> fetch();
+            
             echo '<p>Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . ', numéro de téléphone : ' . $donnees['num_tel'];
-            if(isset($_POST['add_guide'])){
+            if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
                 echo '. <button type="submit" name="add_guide_group" value="' . $donnees['id'] . '">Ajouter</button></p>';
             }
-            else{
+            elseif(!isset($_POST['add_guide'])){
                 echo '. <button type="submit" name="delete_guide" value="' . $donnees['id'] . '">Supprimer</button></p>';
             }
         }
