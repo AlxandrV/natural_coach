@@ -21,6 +21,7 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
     $region_depart = $_POST['region_depart'];
     $region_arrivee = $_POST['region_arrivee'];
     $tarif = $_POST['tarif'];
+
     // Requète pérparée pour création de ajout dans table 'excursion'
     $req = $bdd -> prepare('INSERT INTO excursion(nom, date_depart, date_retour, point_depart, region_depart, point_arrivee, region_arrivee, tarif) VALUE(:nom, :date_dpt, :date_arv, :point_dpt, :region_dpt, :point_arv, :region_arv, :prix)');
     $req -> execute(array('nom' => $nom_excursion,
@@ -31,6 +32,8 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
         'point_arv' => $point_arrivee,
         'region_arv' => $region_arrivee,
         'prix' => $tarif));
+
+    echo json_encode('');
     $req -> closeCursor();
 }
 
@@ -48,21 +51,9 @@ if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     $id = $_POST['id'];
     $id_default = '0';
     // Ajout dans liste de groupe 
-    $req = $bdd -> prepare('INSERT INTO groupe(id_excursion, place_max, id_randonneur, id_guide) VALUE(:id, :place, :randonneur, :guide)');
-    $req -> execute(array('id' => $id, 'place' => $place, 'randonneur' => $id_default, 'guide' => $id_default));
+    $req = $bdd -> prepare('INSERT INTO groupe(id_excursion, place_max) VALUE(:id, :place)');
+    $req -> execute(array('id' => $id, 'place' => $place));
     $req -> closeCursor();
-
-    // Récupération de l'id du groupe le nom de la table à créer
-    /*$req = $bdd -> query('SELECT id FROM groupe ORDER BY id DESC LIMIT 1');
-    $table_name = 'groupe';
-    $donnees = $req -> fetch();
-    $table_name .= $donnees['id'];
-    $req -> closeCursor();
-
-    // Création du groupe 
-    $req = $bdd -> query('CREATE TABLE ' . $table_name . ' (id INT PRIMARY KEY NOT NULL,
-    id_participant INT,
-    fonction VARCHAR(20))');*/
     header('Location: excursion.php?n=' . $id);
 }
 
@@ -135,7 +126,6 @@ if(isset($_POST['add_guide_group']) && isset($_SESSION['id_group'])){
     $req -> closeCursor();
     header('Location: index.php');
 }
-
 
 else{
     header('Location: index.php');

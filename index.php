@@ -36,12 +36,15 @@ session_start();
     // Fonctionnalité pour admin
     else{
         ?>
+        <!-- Form log out admin -->
         <form action="identification.php" method="POST">
             <button type="submit" name="log_out" value="log_out">Se déconnecter</button>
         </form>
         <?php
         $excursion = $bdd -> query('SELECT * FROM  excursion');
         ?>
+
+        <!-- Liste éxcursion et form pour suppression -->
         <form action="ajout.php" method="POST">
         <?php
         while($donnees = $excursion -> fetch()){
@@ -49,12 +52,16 @@ session_start();
         }
         ?>
         </form>
-        <form action="ajout.php" method="POST" id="update">
+
+        <!-- Form pour ajout d'éxcursion -->
+        <form action="ajout.php" method="POST" id="reqAjaxSubmit">
             <p>Ajouter une nouvelle excursion :</p>
             <p>Nom de la randonnée <input type="text" name="nom_excursion" required></input>, date de départ <input type="date" name="date_depart" required></input>, date de retour <input type="date" name="date_arrivee" required></input>, point de départ <input type="text" name="point_depart" required></input>
             , point d'arrivée <input type="text" name="point_arrivee" required></input>, région de départ <input type="text" name="region_depart" required></input>, région d'arrivée <input type="text" name="region_arrivee" required></input>, tarif <input type="number" name="tarif" min="0" step="any" required></input></p>
             <input type="submit" value="Créer">
         </form>
+
+        <!-- Form pour lien vers liste des membres -->
         <form action="membre.php">
             <button type="submit" name="status" value="randonneur">Liste des randonneurs</button>
             <button type="submit" name="status" value="guide">Liste des guides</button>
@@ -63,5 +70,6 @@ session_start();
     }
     $excursion -> closeCursor();
     ?>  
+    <script src="script.js"></script>
 </body>
 </html>
