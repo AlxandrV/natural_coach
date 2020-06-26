@@ -23,4 +23,7 @@ if(isset($_POST['login_admin']) && isset($_POST['password_admin'])){
     
     $check_login -> closeCursor();  
 }
+if(isset($_POST['log_out'])){
+    session_destroy();
+}
 header('Location: index.php');

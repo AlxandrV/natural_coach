@@ -22,7 +22,7 @@ session_start();
     // Login pour admin
     if(!isset($_SESSION['id_admin'])){
     ?>
-        <form action="identification.php" method="POST">
+        <form action="identification.php" method="POST" >
             <input type="text" name="login_admin" id="login" placeholder="login">
             <input type="password" name="password_admin" id="password" placeholder="password">
             <input type="submit" value="Valider">
@@ -35,6 +35,11 @@ session_start();
     }
     // Fonctionnalité pour admin
     else{
+        ?>
+        <form action="identification.php" method="POST">
+            <button type="submit" name="log_out" value="log_out">Se déconnecter</button>
+        </form>
+        <?php
         $excursion = $bdd -> query('SELECT * FROM  excursion');
         ?>
         <form action="ajout.php" method="POST">
