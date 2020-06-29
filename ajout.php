@@ -12,7 +12,7 @@ catch (Exeption $e){
 
 // Ajout nouvelle entrée 'excursion'
 if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_POST['date_arrivee']) && !empty($_POST['point_depart']) && !empty($_POST['point_arrivee']) && !empty($_POST['region_depart']) && !empty($_POST['region_arrivee']) && !empty($_POST['tarif'])){
-    
+    echo 'lol';
     $nom_excursion = $_POST['nom_excursion'];
     $date_depart = $_POST['date_depart'];
     $date_arrivee = $_POST['date_arrivee'];
@@ -33,8 +33,9 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
         'region_arv' => $region_arrivee,
         'prix' => $tarif));
 
-    echo json_encode('');
+    echo json_encode(['error' => 'ok']);
     $req -> closeCursor();
+    
 }
 
 // Supprime une entrée dans 'excursion'
@@ -43,6 +44,7 @@ if(isset($_POST['delete'])){
     $req = $bdd -> prepare('DELETE FROM excursion WHERE id = :id_delete');
     $req -> execute(array('id_delete' => $id_to_delete));
     $req -> closeCursor();
+    header('Location: index.php');
 }
 
 // Création de groupe
@@ -127,6 +129,6 @@ if(isset($_POST['add_guide_group']) && isset($_SESSION['id_group'])){
     header('Location: index.php');
 }
 
-else{
+/*else{
     header('Location: index.php');
-}
+}*/

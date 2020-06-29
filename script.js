@@ -1,6 +1,5 @@
-const form = document.querySelector("form");
-// a check
-const datalist = document.querySelector("datalist");
+const form = document.querySelector("#reqAjaxSubmit");
+const req_ajax = document.getElementById("req_ajax");
 
 document.getElementById("reqAjaxSubmit").addEventListener('submit', function(e){
     e.preventDefault();
@@ -16,11 +15,11 @@ document.getElementById("reqAjaxSubmit").addEventListener('submit', function(e){
         }
         if (xhr.readyState === 4 && xhr.status === 200) {
             let datas = JSON.parse(xhr.responseText);
-            datalist.innerHTML = "";
+            req_ajax.innerHTML = "";
             datas.forEach((data) => {
                 let option = document.createElement("option");
                 option.value = data.title;
-                datalist.appendChild(option);
+                req_ajax.appendChild(option);
             });
         }
     });
