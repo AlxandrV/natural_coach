@@ -1,0 +1,21 @@
+main{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#add_form{
+    margin-top: 20px;
+}
+
+input[type="submit"]{
+margin-left: 5px;
+}
+
+#list_member{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#inscription > button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

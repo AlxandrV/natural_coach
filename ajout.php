@@ -12,7 +12,7 @@ catch (Exeption $e){
 
 // Ajout nouvelle entrée 'excursion'
 if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_POST['date_arrivee']) && !empty($_POST['point_depart']) && !empty($_POST['point_arrivee']) && !empty($_POST['region_depart']) && !empty($_POST['region_arrivee']) && !empty($_POST['tarif'])){
-    echo 'lol';
+
     $nom_excursion = $_POST['nom_excursion'];
     $date_depart = $_POST['date_depart'];
     $date_arrivee = $_POST['date_arrivee'];
@@ -33,7 +33,13 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
         'region_arv' => $region_arrivee,
         'prix' => $tarif));
 
-    echo json_encode(['error' => 'ok']);
+    // Réponse Ajax
+    $reponse_ajax = $bdd -> query('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
+    //var_dump($reponse_ajax);
+    $donnees = $reponse_ajax -> fetch();
+    echo json_encode($donnees);
+
+    $reponse_ajax -> closeCursor();
     $req -> closeCursor();
     
 }

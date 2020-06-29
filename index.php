@@ -11,7 +11,7 @@ session_start();
     <title>Natural Coach</title>
 </head>
 <body>
-    <div class="container">
+    <main class="container">
         <?php
         // Connexion BDD
         try{
@@ -32,6 +32,9 @@ session_start();
                     <input type="submit" value="Valider" class="btn btn-outline-success my-2 my-sm-0">
                 </form>
             </div>
+            <h1>Natural Coach</h1>
+            <p>Bienvenue.</p>
+            <p>Nous effectuons plusieurs randonnée à travers le pays, vous trouverez la liste de prochaines que nous organisons ici bas, pour vous insrcire merci de nous contacter au : <a href="tel:+164896327">01 64 89 63 27</a>.</p>
         <?php
             echo '<ul class="list-group">';
             $excursion = $bdd -> query('SELECT * FROM  excursion');
@@ -43,7 +46,7 @@ session_start();
         // Fonctionnalité pour admin
         else{
             ?>
-            <div class="container">
+            <main class="container">
             
             <!-- Form log out admin -->
             <div class="navbar">
@@ -56,13 +59,17 @@ session_start();
             ?>
 
             <!-- Liste éxcursion et form pour suppression -->
-            <form action="ajout.php" method="POST" id="req_ajax">
+            <form action="ajout.php" method="POST">
                 <ul class="list-group">
                 <?php
                 while($donnees = $excursion -> fetch()){
-                    echo '<li class="list-group-item"><button type="submit" name="delete" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button> Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '€. <a href="excursion.php?n=' . $donnees['id'] . '" class="badge badge-pill badge-info">Détails et groupe</a></li>';
+                    ?>
+                    <li class="list-group-item" id="clone">
+                        <button type="submit" name="delete" value="<?php echo $donnees['id']?>" class="btn btn-danger">Supprimer</button> Nom : <span><?php echo $donnees['nom'] ?></span>, date départ : <span><?php echo $donnees['date_depart'] ?></span>, date retour : <span><?php echo $donnees['date_retour'] ?></span>, depart : <span><?php echo $donnees['point_depart'] ?></span>, arrivée : <span><?php echo $donnees['point_arrivee'] ?></span>, tarif : <span><?php echo $donnees['tarif'] ?></span>€. <a href="excursion.php?n=<?php echo $donnees['id'] ?>" class="badge badge-pill badge-info">Détails et groupe</a></li>
+                    <?php
                 }
                 ?>
+                <template id="reponse_ajax"></template>
                 </ul>
             </form>
 
@@ -122,6 +129,6 @@ session_start();
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </div>
+    </main>
 </body>
 </html>

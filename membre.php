@@ -16,7 +16,7 @@ if(!isset($_SESSION['id_admin'])){
 </head>
 <body>
     <main class="container">
-        <p class="navbar-nav" nav-item active><a href="index.php" class="nav-link">Retour à l'acceuil</a></p>
+        <p class="navbar-nav nav-item"><a href="index.php" class="nav-link">Retour à l'acceuil</a></p>
         <?php
         // Connexion BDD
         try{
