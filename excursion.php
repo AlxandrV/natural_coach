@@ -31,7 +31,7 @@ if(!isset($_SESSION['id_admin'])){
         $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
         $req -> execute(array($id));
         while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '€.</li>';
+            echo '<li class="list-group-item">Nom : ' . htmlspecialchars($donnees['nom']) . ', date départ : ' . htmlspecialchars($donnees['date_depart']) . ', date retour : ' . htmlspecialchars($donnees['date_retour']) . ', depart : ' . htmlspecialchars($donnees['point_depart']) . ', arrivée : ' . htmlspecialchars($donnees['point_arrivee']) .', tarif : ' . htmlspecialchars($donnees['tarif']) . '€.</li>';
         }
         $req -> closeCursor();
         echo '</ul>';
@@ -49,12 +49,12 @@ if(!isset($_SESSION['id_admin'])){
                 </div>
             </div>
         </form>
-        <form action="gestion.php" method="POST">
+        <form action="ajout.php" method="POST">
             <ul class="list-group">
                 <?php
                 $i = 1;
                 while($donnees = $req -> fetch()){
-                    echo '<li class="list-group-item">Groupe ' . $i . ', place maximum : ' . $donnees['place_max'] . ' <button type="submit" name="groupe" value="' . $donnees['id'] . '" class="badge badge-pill badge-info">Voir les paricipants</button></li>';
+                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="submit" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger">Supprimer</button></li>';
                     $i++;
                 }
                 ?>    

@@ -27,7 +27,7 @@ if(!isset($_SESSION['id_admin'])){
         }
         
         // Récupération de participants du gorupe
-        $id = $_POST['groupe'];
+        $id = $_GET['groupe'];
         $_SESSION['id_group'] = $id;
         $req = $bdd -> prepare('SELECT * FROM groupe AS g INNER JOIN randonneur_groupe AS r_grp ON g.id = r_grp.id_groupe INNER JOIN randonneur AS r ON r_grp.id_randonneur = r.id  WHERE g.id = ?');
         $req -> execute(array($id));
@@ -35,7 +35,7 @@ if(!isset($_SESSION['id_admin'])){
         // Liste les randonneurs inscrit
         echo '<ul class="list-group">';
         while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">' . $donnees['nom'] . ', ' . $donnees['prenom'] . '</li>';
+            echo '<li class="list-group-item">' . htmlspecialchars($donnees['nom']) . ', ' . htmlspecialchars($donnees['prenom']) . '</li>';
         }
         $req -> closeCursor();
         echo '</ul>';
@@ -62,7 +62,7 @@ if(!isset($_SESSION['id_admin'])){
         // Liste les randonneurs inscrit
         echo '<ul class="list-group">';
         while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">' . $donnees['nom'] . ', ' . $donnees['prenom'] . ', ' .$donnees['num_tel'] . '</li>';
+            echo '<li class="list-group-item">' . htmlspecialchars($donnees['nom']) . ', ' . htmlspecialchars($donnees['prenom']) . ', ' . htmlspecialchars($donnees['num_tel']) . '</li>';
         }
         $req -> closeCursor();
         echo '</ul>';

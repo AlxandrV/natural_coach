@@ -65,6 +65,15 @@ if(isset($_POST['nombre_place']) && isset($_POST['id'])){
     header('Location: excursion.php?n=' . $id);
 }
 
+// Suppression de groupe
+if(isset($_POST['delete-groupe'])){
+    $delete = $_POST['delete-groupe'];
+    $req = $bdd -> prepare('DELETE FROM groupe WHERE id = ?');
+    $req -> execute(array($delete));
+    $req -> closeCursor();
+    header('Location: index.php');
+}
+
 // Ajout de randonneur
 if(isset($_POST['add_nom_randonneur']) && isset($_POST['add_prenom_randonneur'])){
 

@@ -2,6 +2,11 @@ main{
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+#log-out{
+    margin-bottom: 10px;
+}
+
 #add_form{
     margin-top: 20px;
 }

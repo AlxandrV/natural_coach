@@ -25,10 +25,10 @@ session_start();
         // Login pour admin
         if(!isset($_SESSION['id_admin'])){
         ?>
-            <div class="navbar">
+            <div class="d-flex justify-content-end">
                 <form action="identification.php" method="POST" class="form-inline">
-                    <input type="text" name="login_admin" id="login" placeholder="login" class="form-control mr-sm-2" aria-label="Search">
-                    <input type="password" name="password_admin" id="password" placeholder="password" class="form-control mr-sm-2" aria-label="Search">
+                    <input type="text" name="login_admin" id="login" placeholder="login = admin" class="form-control mr-sm-2" aria-label="Search">
+                    <input type="password" name="password_admin" id="password" placeholder="password = admin" class="form-control mr-sm-2" aria-label="Search">
                     <input type="submit" value="Valider" class="btn btn-outline-success my-2 my-sm-0">
                 </form>
             </div>
@@ -39,7 +39,7 @@ session_start();
             echo '<ul class="list-group">';
             $excursion = $bdd -> query('SELECT * FROM  excursion');
             while($donnees = $excursion -> fetch()){
-                echo '<li class="list-group-item">Nom : ' . $donnees['nom'] . ', date départ : ' . $donnees['date_depart'] . ', date retour : ' . $donnees['date_retour'] . ', depart : ' . $donnees['point_depart'] . ', arrivée : ' . $donnees['point_arrivee'] .', tarif : ' . $donnees['tarif'] . '.</li>';
+                echo '<li class="list-group-item">Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, date départ : <span>' . htmlspecialchars($donnees['date_depart']) . '</span>, date retour : <span>' . htmlspecialchars($donnees['date_retour']) . '</span>, depart : <span>' . htmlspecialchars($donnees['point_depart']) . '</span>, arrivée : <span>' . htmlspecialchars($donnees['point_arrivee']) .'</span>, tarif : <span>' . htmlspecialchars($donnees['tarif']) . '</span>.</li>';
             }
             echo '<ul>';
         }
@@ -49,7 +49,7 @@ session_start();
             <main class="container">
             
             <!-- Form log out admin -->
-            <div class="navbar">
+            <div class="d-flex justify-content-end" id="log-out">
                 <form action="identification.php" method="POST">
                     <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
                 </form>
@@ -65,9 +65,9 @@ session_start();
                 while($donnees = $excursion -> fetch()){
                     ?>
                     <li class="list-group-item row d-flex justify-content-between">
-                        <p class="col-12"> Nom : <span><?php echo $donnees['nom'] ?></span>, date départ : <span><?php echo $donnees['date_depart'] ?></span>, date retour : <span><?php echo $donnees['date_retour'] ?></span>, depart : <span><?php echo $donnees['point_depart'] ?></span>, arrivée : <span><?php echo $donnees['point_arrivee'] ?></span>, tarif : <span><?php echo $donnees['tarif'] ?></span>€.</p>
-                        <button type="submit" name="delete" value="<?php echo $donnees['id']?>" class="btn btn-danger">Supprimer</button>
-                        <a href="excursion.php?n=<?php echo $donnees['id'] ?>" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
+                        <p class="col-12"> Nom : <span><?php echo htmlspecialchars($donnees['nom']) ?></span>, date départ : <span><?php echo htmlspecialchars($donnees['date_depart']) ?></span>, date retour : <span><?php echo htmlspecialchars($donnees['date_retour']) ?></span>, depart : <span><?php echo htmlspecialchars($donnees['point_depart']) ?></span>, arrivée : <span><?php echo htmlspecialchars($donnees['point_arrivee']) ?></span>, tarif : <span><?php echo htmlspecialchars($donnees['tarif']) ?></span>€.</p>
+                        <button type="submit" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="btn btn-danger">Supprimer</button>
+                        <a href="excursion.php?n=<?php echo htmlspecialchars($donnees['id']) ?>" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
                     </li>
                     <?php
                 }
