@@ -56,7 +56,7 @@ if(!isset($_SESSION['id_admin'])){
             echo '<ul class="list-group">';
             $req = $bdd -> query('SELECT * FROM randonneur');
             while($donnees = $req -> fetch()){
-                echo '<li class="list-group-item">Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'];
+                echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . $donnees['nom'] . '</span>, prénom : <span>' . $donnees['prenom'] . '</span></p>';
                 
                 // Vérifie si déjà inscrit à un groupe
                 if(isset($_SESSION['id_group'])){
@@ -66,11 +66,11 @@ if(!isset($_SESSION['id_admin'])){
                 }
                 
                 if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
-                    echo '. <button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
+                    echo '<button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
                     $verification_inscription -> closeCursor();
                 }
                 elseif(!isset($_POST['add_randonneur'])){
-                    echo '. <button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button></li>';
+                    echo '<button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button></li>';
                 }
             }
             $req -> closeCursor();
@@ -109,7 +109,7 @@ if(!isset($_SESSION['id_admin'])){
             
             $req = $bdd -> query('SELECT * FROM guide');
             while($donnees = $req -> fetch()){
-                echo '<li class="list-group-item">Nom : ' . $donnees['nom'] . ', prénom : ' . $donnees['prenom'] . ', numéro de téléphone : ' . $donnees['num_tel'];
+                echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . $donnees['nom'] . '</span>, prénom : <span>' . $donnees['prenom'] . '</span>, numéro de téléphone : <span>' . $donnees['num_tel'] . '</span></p>';
                 
                 // Vérifie si déjà inscrit à un groupe
                 if(isset($_SESSION['id_group'])){
@@ -118,12 +118,12 @@ if(!isset($_SESSION['id_admin'])){
                     $validate = $verification_inscription -> fetch();
                     
                     if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
-                        echo '. <button type="submit" name="add_guide_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
+                        echo '<button type="submit" name="add_guide_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
                     }  
                     $verification_inscription -> closeCursor();          
                 }
                 elseif(!isset($_POST['add_guide'])){
-                    echo '. <button type="submit" name="delete_guide" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button></li>';
+                    echo '<button type="submit" name="delete_guide" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button></li>';
                 }
             }
             

@@ -60,16 +60,25 @@ session_start();
 
             <!-- Liste éxcursion et form pour suppression -->
             <form action="ajout.php" method="POST">
-                <ul class="list-group">
+                <ul class="list-group" id="list">
                 <?php
                 while($donnees = $excursion -> fetch()){
                     ?>
-                    <li class="list-group-item" id="clone">
-                        <button type="submit" name="delete" value="<?php echo $donnees['id']?>" class="btn btn-danger">Supprimer</button> Nom : <span><?php echo $donnees['nom'] ?></span>, date départ : <span><?php echo $donnees['date_depart'] ?></span>, date retour : <span><?php echo $donnees['date_retour'] ?></span>, depart : <span><?php echo $donnees['point_depart'] ?></span>, arrivée : <span><?php echo $donnees['point_arrivee'] ?></span>, tarif : <span><?php echo $donnees['tarif'] ?></span>€. <a href="excursion.php?n=<?php echo $donnees['id'] ?>" class="badge badge-pill badge-info">Détails et groupe</a></li>
+                    <li class="list-group-item row d-flex justify-content-between">
+                        <p class="col-12"> Nom : <span><?php echo $donnees['nom'] ?></span>, date départ : <span><?php echo $donnees['date_depart'] ?></span>, date retour : <span><?php echo $donnees['date_retour'] ?></span>, depart : <span><?php echo $donnees['point_depart'] ?></span>, arrivée : <span><?php echo $donnees['point_arrivee'] ?></span>, tarif : <span><?php echo $donnees['tarif'] ?></span>€.</p>
+                        <button type="submit" name="delete" value="<?php echo $donnees['id']?>" class="btn btn-danger">Supprimer</button>
+                        <a href="excursion.php?n=<?php echo $donnees['id'] ?>" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
+                    </li>
                     <?php
                 }
                 ?>
-                <template id="reponse_ajax"></template>
+                <template id="reponse_ajax">
+                    <li class="list-group-item row d-flex justify-content-between" id="clone">
+                        <p class="col-12">Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
+                        <button type="submit" name="delete" value="" class="btn btn-danger">Supprimer</button>
+                        <a href="" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
+                    </li>
+                </template>
                 </ul>
             </form>
 

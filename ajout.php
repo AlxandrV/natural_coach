@@ -35,7 +35,7 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
 
     // Réponse Ajax
     $reponse_ajax = $bdd -> query('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
-    //var_dump($reponse_ajax);
+    //var_dump($reponse_ajax)
     $donnees = $reponse_ajax -> fetch();
     echo json_encode($donnees);
 
