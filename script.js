@@ -38,3 +38,11 @@ document.getElementById("reqAjaxSubmit").addEventListener('submit', function(e){
         }
     });
 });
+
+function ConfirmDelete(){
+  var x = confirm("Etes-vous sûr de vouloir supprimer ?");
+  if (x)
+      return true;
+  else
+    return false;
+}

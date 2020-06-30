@@ -36,6 +36,7 @@ if(!isset($_SESSION['id_admin'])){
         if($status['status'] == 'randonneur'){
             if(!isset($_POST['add_randonneur'])){
                 ?>
+                <!-- Formulaire d'ajout de randonneur -->
                 <form action="ajout.php" id="membre"method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-4">
@@ -55,22 +56,27 @@ if(!isset($_SESSION['id_admin'])){
             echo '<form action="ajout.php" method="POST">';
             echo '<ul class="list-group">';
             $req = $bdd -> query('SELECT * FROM randonneur');
+            // Liste tout les randonneurs inscrits
             while($donnees = $req -> fetch()){
                 echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . $donnees['nom'] . '</span>, prénom : <span>' . $donnees['prenom'] . '</span></p>';
                 
-                // Vérifie si déjà inscrit à un groupe
+                // Si $_SESSION['id_group'] existe
                 if(isset($_SESSION['id_group'])){
-                    $verification_inscription = $bdd -> prepare('SELECT r_grp.id_groupe AS id_groupe FROM randonneur AS r INNER JOIN randonneur_groupe AS r_grp WHERE r.id = ' . $donnees['id'] . ' AND r_grp.id_groupe = ?');
+                    // Vérifie si inscrit au groupe correspondant à $_SESSION['id_group']
+                    $verification_inscription = $bdd -> prepare('SELECT r_grp.id_groupe AS id_groupe, r.id FROM randonneur_groupe AS r_grp INNER JOIN randonneur AS r ON r.id = r_grp.id_randonneur WHERE r.id = ' . $donnees['id'] . ' AND r_grp.id_groupe = ?');
                     $verification_inscription -> execute(array($id_groupe));
                     $validate = $verification_inscription -> fetch();
                 }
                 
+                // Si non inscrit au groupe et place max non atteinte
                 if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
                     echo '<button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
                     $verification_inscription -> closeCursor();
                 }
+
+                // Si page simple pour lister randonneur
                 elseif(!isset($_POST['add_randonneur'])){
-                    echo '<button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '" class="btn btn-danger">Supprimer</button></li>';
+                    echo '<button type="submit" name="delete_randonneur" value="' . $donnees['id'] . '" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button></li>';
                 }
             }
             $req -> closeCursor();
@@ -84,6 +90,7 @@ if(!isset($_SESSION['id_admin'])){
         if($status['status'] == 'guide'){
             if(!isset($_POST['add_guide'])){
                 ?>
+                <!-- Formulaire d'ajout de guide -->
                 <form action="ajout.php" id="membre"method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-3">
@@ -107,6 +114,7 @@ if(!isset($_SESSION['id_admin'])){
             echo '<form action="ajout.php" method="POST">';
             echo '<ul class="list-group">';
             
+            // Liste les guides
             $req = $bdd -> query('SELECT * FROM guide');
             while($donnees = $req -> fetch()){
                 echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, prénom : <span>' . htmlspecialchars($donnees['prenom']) . '</span>, numéro de téléphone : <span>' . htmlspecialchars($donnees['num_tel']) . '</span></p>';
@@ -117,13 +125,15 @@ if(!isset($_SESSION['id_admin'])){
                     $verification_inscription -> execute(array($id_groupe));
                     $validate = $verification_inscription -> fetch();
                     
-                    if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
-                        echo '<button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></li>';
-                    }  
-                    $verification_inscription -> closeCursor();          
                 }
+                // Si non inscrit au groupe
+                if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
+                    echo '<button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></li>';
+                    $verification_inscription -> closeCursor();          
+                }  
+                // Si page simple pour lister guide
                 elseif(!isset($_POST['add_guide'])){
-                    echo '<button type="submit" name="delete_guide" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger">Supprimer</button></li>';
+                    echo '<button type="submit" name="delete_guide" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button></li>';
                 }
             }
             
@@ -135,6 +145,7 @@ if(!isset($_SESSION['id_admin'])){
         }
         ?>
     </main>
+    <script src="script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

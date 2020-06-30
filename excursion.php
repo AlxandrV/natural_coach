@@ -30,12 +30,14 @@ if(!isset($_SESSION['id_admin'])){
         $id = $_GET['n'];
         $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
         $req -> execute(array($id));
+        // Afiiche l'excursion selon le $_GET
         while($donnees = $req -> fetch()){
             echo '<li class="list-group-item">Nom : ' . htmlspecialchars($donnees['nom']) . ', date départ : ' . htmlspecialchars($donnees['date_depart']) . ', date retour : ' . htmlspecialchars($donnees['date_retour']) . ', depart : ' . htmlspecialchars($donnees['point_depart']) . ', arrivée : ' . htmlspecialchars($donnees['point_arrivee']) .', tarif : ' . htmlspecialchars($donnees['tarif']) . '€.</li>';
         }
         $req -> closeCursor();
         echo '</ul>';
         
+        // Formulaire d'ajout de goupe
         $req = $bdd -> prepare('SELECT * FROM groupe WHERE id_excursion = ?');
         $req -> execute(array($id));
         ?>
@@ -53,14 +55,16 @@ if(!isset($_SESSION['id_admin'])){
             <ul class="list-group">
                 <?php
                 $i = 1;
+                // liste les groupe pour l'excursion
                 while($donnees = $req -> fetch()){
-                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="submit" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger">Supprimer</button></li>';
+                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="submit" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button></li>';
                     $i++;
                 }
                 ?>    
             </ul>    
         </form>
     </main>
+    <script src="script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

@@ -26,7 +26,7 @@ if(!isset($_SESSION['id_admin'])){
             die('Erreur : ' . $e -> getmessage());
         }
         
-        // Récupération de participants du gorupe
+        // Récupération des randonneurs du groupe selon le $_GET
         $id = $_GET['groupe'];
         $_SESSION['id_group'] = $id;
         $req = $bdd -> prepare('SELECT * FROM groupe AS g INNER JOIN randonneur_groupe AS r_grp ON g.id = r_grp.id_groupe INNER JOIN randonneur AS r ON r_grp.id_randonneur = r.id  WHERE g.id = ?');
@@ -41,8 +41,8 @@ if(!isset($_SESSION['id_admin'])){
         echo '</ul>';
 
         // Compte le nombre d'inscrit dans le groupe
-        $req = $bdd -> prepare('SELECT g.place_max AS max_place, COUNT(r.id_groupe) AS max_inscrit FROM groupe AS g INNER JOIN randonneur_groupe AS r WHERE g.id = ?');
-        $req -> execute(array($id));
+        $req = $bdd -> prepare('SELECT g.place_max AS max_place, COUNT(r.id_groupe) AS max_inscrit FROM groupe AS g INNER JOIN randonneur_groupe AS r WHERE g.id = ? AND r.id_groupe = ?');
+        $req -> execute(array($id, $id));
         
         // Si nombre inscrit inférieur au nombre de place max
         $donnees = $req -> fetch();
@@ -56,10 +56,11 @@ if(!isset($_SESSION['id_admin'])){
 
         <?php
         }
+        // Récupération des guides inscrit au groupe selon le $_GET
         $req = $bdd -> prepare('SELECT * FROM groupe AS grp INNER JOIN guide_groupe AS g_grp ON grp.id = g_grp.id_groupe INNER JOIN guide AS g ON g_grp.id_guide = g.id  WHERE grp.id = ?');
         $req -> execute(array($id));
 
-        // Liste les randonneurs inscrit
+        // Liste les guides inscrit
         echo '<ul class="list-group">';
         while($donnees = $req -> fetch()){
             echo '<li class="list-group-item">' . htmlspecialchars($donnees['nom']) . ', ' . htmlspecialchars($donnees['prenom']) . ', ' . htmlspecialchars($donnees['num_tel']) . '</li>';

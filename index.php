@@ -58,7 +58,7 @@ session_start();
             $excursion = $bdd -> query('SELECT * FROM  excursion');
             ?>
 
-            <!-- Liste éxcursion et form pour suppression -->
+            <!-- Liste excursion et form pour suppression -->
             <form action="ajout.php" method="POST">
                 <ul class="list-group" id="list">
                 <?php
@@ -66,7 +66,7 @@ session_start();
                     ?>
                     <li class="list-group-item row d-flex justify-content-between">
                         <p class="col-12"> Nom : <span><?php echo htmlspecialchars($donnees['nom']) ?></span>, date départ : <span><?php echo htmlspecialchars($donnees['date_depart']) ?></span>, date retour : <span><?php echo htmlspecialchars($donnees['date_retour']) ?></span>, depart : <span><?php echo htmlspecialchars($donnees['point_depart']) ?></span>, arrivée : <span><?php echo htmlspecialchars($donnees['point_arrivee']) ?></span>, tarif : <span><?php echo htmlspecialchars($donnees['tarif']) ?></span>€.</p>
-                        <button type="submit" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button>
                         <a href="excursion.php?n=<?php echo htmlspecialchars($donnees['id']) ?>" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
                     </li>
                     <?php
@@ -75,7 +75,7 @@ session_start();
                 <template id="reponse_ajax">
                     <li class="list-group-item row d-flex justify-content-between" id="clone">
                         <p class="col-12">Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
-                        <button type="submit" name="delete" value="" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" name="delete" value="" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button>
                         <a href="" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
                     </li>
                 </template>
