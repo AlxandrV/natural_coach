@@ -16,7 +16,14 @@ if(!isset($_SESSION['id_admin'])){
 </head>
 <body>
     <main class="container">
-        <p class="navbar-nav nav-item"><a href="index.php" class="nav-link">Retour à l'acceuil</a></p>
+        <p class=" nav-item d-flex row"><a href="index.php" class="nav-link">Retour à l'acceuil</a>
+        <?php
+            if(isset($_POST['add_randonneur']) || isset($_POST['add_guide'])){
+                echo '<a href="excursion.php?n=' . $_SESSION['id_excursion'] . '" class="nav-link">Liste des groupes</a>';
+                echo '<a href="gestion.php?groupe=' . $_SESSION['id_group'] . '" class="nav-link">Liste des inscrits</a>';
+            }
+        ?>
+        </p>
         <?php
         // Connexion BDD
         try{

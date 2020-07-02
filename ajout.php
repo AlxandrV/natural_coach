@@ -130,7 +130,7 @@ if(isset($_POST['add_randonneur_group']) && isset($_SESSION['id_group'])){
     $req = $bdd -> prepare('INSERT INTO randonneur_groupe VALUE(:id_groupe, :id_randonneur)');
     $req -> execute(array('id_groupe' => $id_group, 'id_randonneur' => $id_randonneur));
     $req -> closeCursor();
-    header('Location: index.php');
+    header('Location: gestion.php?groupe=' . $id_group);
 }
 
 // Ajout guide à un groupe
@@ -141,7 +141,7 @@ if(isset($_POST['add_guide_group']) && isset($_SESSION['id_group'])){
     $req = $bdd -> prepare('INSERT INTO guide_groupe VALUE(:id_groupe, :id_guide)');
     $req -> execute(array('id_groupe' => $id_group, 'id_guide' => $id_guide));
     $req -> closeCursor();
-    header('Location: index.php');
+    header('Location: gestion.php?groupe=' . $id_group);
 }
 
 /*else{

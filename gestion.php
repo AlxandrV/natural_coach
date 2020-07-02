@@ -15,7 +15,13 @@ if(!isset($_SESSION['id_admin'])){
 </head>
 <body>
     <main class="container">
-        <p class="navbar-nav nav-item"><a href="index.php" class="nav-link">Retour à l'acceuil</a></p>
+        <p class=" nav-item d-flex row"><a href="index.php" class="nav-link">Retour à l'acceuil</a>
+        <?php
+            if(isset($_SESSION['id_excursion'])){
+                echo '<a href="excursion.php?n=' . $_SESSION['id_excursion'] . '" class="nav-link">Liste des groupes</a>';
+            }
+        ?>
+        </p>
         <?php
         // Connexion BDD
         try{
@@ -56,6 +62,7 @@ if(!isset($_SESSION['id_admin'])){
 
         <?php
         }
+        echo '<br/>';
         // Récupération des guides inscrit au groupe selon le $_GET
         $req = $bdd -> prepare('SELECT * FROM groupe AS grp INNER JOIN guide_groupe AS g_grp ON grp.id = g_grp.id_groupe INNER JOIN guide AS g ON g_grp.id_guide = g.id  WHERE grp.id = ?');
         $req -> execute(array($id));

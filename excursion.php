@@ -28,6 +28,7 @@ if(!isset($_SESSION['id_admin'])){
         
         echo '<ul class="list-group">';
         $id = $_GET['n'];
+        $_SESSION['id_excursion'] = $_GET['n'];
         $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
         $req -> execute(array($id));
         // Afiiche l'excursion selon le $_GET
