@@ -128,10 +128,9 @@ if(!isset($_SESSION['id_admin'])){
                 
                 // Vérifie si déjà inscrit à un groupe
                 if(isset($_SESSION['id_group'])){
-                    $verification_inscription = $bdd -> prepare('SELECT g_grp.id_groupe AS id_groupe FROM guide AS g INNER JOIN guide_groupe AS g_grp WHERE g.id = ' . $donnees['id'] . ' AND g_grp.id_groupe = ?');
+                    $verification_inscription = $bdd -> prepare('SELECT g_grp.id_groupe AS id_groupe FROM guide AS g INNER JOIN guide_groupe AS g_grp ON g.id = g_grp.id_guide WHERE g.id = ' . $donnees['id'] . ' AND g_grp.id_groupe = ?');
                     $verification_inscription -> execute(array($id_groupe));
                     $validate = $verification_inscription -> fetch();
-                    
                 }
                 // Si non inscrit au groupe
                 if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){

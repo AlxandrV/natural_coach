@@ -22,6 +22,22 @@ session_start();
             die('Erreur : ' . $e -> getmessage());
         }
 
+        // Si $_GET['page'] n'existe pas vaut 1
+        if(!isset($_GET['page']) || empty($_GET['page'])){
+            $currentPage = 1;
+        }
+        else{
+            $currentPage = $_GET['page'];
+        }
+
+        // Compte nombre d'élément pour pagination 
+        $count = $bdd -> query('SELECT COUNT(id) FROM excursion');
+        $total = $count -> fetch();
+
+        // Défini le début du compte des éléments dans excursion selon la page
+        $limit = 5;
+        $debut = $currentPage * $limit - $limit;
+
         // Login pour admin
         if(!isset($_SESSION['id_admin'])){
         ?>
@@ -36,8 +52,22 @@ session_start();
             <p>Bienvenue.</p>
             <p>Nous effectuons plusieurs randonnée à travers le pays, vous trouverez la liste de prochaines que nous organisons ici bas, pour vous insrcire merci de nous contacter au : <a href="tel:+164896327">01 64 89 63 27</a>.</p>
         <?php
+            // Boucle liste des pages
+            echo '<ul class="pagination">';
+            echo '<li class="page-item page-link">Page</li>';
+            for($i = 1; $i <= ceil($total[0] / $limit); $i++){
+                ?>
+                <li class="page-item"><a href="index.php?page=<?php echo $i ?>" class="page-link"><?php echo $i ?></a></li>
+                <?php
+            }
+            echo '</ul>';
+
+            // Liste des excursions
             echo '<ul class="list-group">';
-            $excursion = $bdd -> query('SELECT * FROM  excursion');
+            $excursion = $bdd -> prepare('SELECT * FROM  excursion ORDER BY id  DESC LIMIT :debut, :limit');
+            $excursion -> bindValue('debut', $debut, PDO::PARAM_INT);
+            $excursion -> bindValue('limit', $limit, PDO::PARAM_INT);
+            $excursion -> execute();
             while($donnees = $excursion -> fetch()){
                 echo '<li class="list-group-item">Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, date départ : <span>' . htmlspecialchars($donnees['date_depart']) . '</span>, date retour : <span>' . htmlspecialchars($donnees['date_retour']) . '</span>, depart : <span>' . htmlspecialchars($donnees['point_depart']) . '</span>, arrivée : <span>' . htmlspecialchars($donnees['point_arrivee']) .'</span>, tarif : <span>' . htmlspecialchars($donnees['tarif']) . '</span>.</li>';
             }
@@ -47,15 +77,30 @@ session_start();
         else{
             ?>
             <main class="container">
+            <div class="d-flex justify-content-between" id="log-out">
+            <?php
+                // Boucle liste des pages
+                echo '<ul class="pagination">';
+                echo '<li class="page-item page-link">Page</li>';
+                for($i = 1; $i <= ceil($total[0] / $limit); $i++){
+                    ?>
+                    <li class="page-item"><a href="index.php?page=<?php echo $i ?>" class="page-link"><?php echo $i ?></a></li>
+                    <?php
+                }
+                echo '</ul>';
+                ?>
+                </p>
             
-            <!-- Form log out admin -->
-            <div class="d-flex justify-content-end" id="log-out">
+                <!-- Form log out admin -->
                 <form action="identification.php" method="POST">
                     <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
                 </form>
             </div>
             <?php
-            $excursion = $bdd -> query('SELECT * FROM  excursion');
+            $excursion = $bdd -> prepare('SELECT * FROM  excursion ORDER BY id  DESC LIMIT :debut, :limit');
+            $excursion -> bindValue('debut', $debut, PDO::PARAM_INT);
+            $excursion -> bindValue('limit', $limit, PDO::PARAM_INT);
+            $excursion -> execute();
             ?>
 
             <!-- Liste excursion et form pour suppression -->
@@ -132,6 +177,7 @@ session_start();
         <?php
         }
         $excursion -> closeCursor();
+        $count -> closeCursor();
         ?>  
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
