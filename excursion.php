@@ -57,17 +57,35 @@ if(!isset($_SESSION['id_admin'])){
                 $i = 1;
                 // liste les groupe pour l'excursion
                 while($donnees = $req -> fetch()){
-                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="submit" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" onclick="return ConfirmDelete()">Supprimer</button></li>';
+                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></li>';
                     $i++;
                 }
                 ?>    
             </ul>    
         </form>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Supprimer ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmDelete()">Oui</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </main>
-    <script src="script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="delete.js"></script>
 </body>
 </html>
