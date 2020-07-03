@@ -1,5 +1,6 @@
 <?php
 session_start();
+//var_dump($_SESSION['false_admin']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +41,17 @@ session_start();
 
         // Login pour admin
         if(!isset($_SESSION['id_admin'])){
-        ?>
+            if(isset($_SESSION['false_admin']) && $_SESSION['false_admin'] === true){
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Erreur !</h4>
+                    <hr>
+                    <p class="mb-0">Mot de passe ou identifiant incorrect.</p>
+                </div>
+                <?php
+                unset($_SESSION['false_admin']);
+            }
+            ?>
             <div class="d-flex justify-content-end">
                 <form action="identification.php" method="POST" class="form-inline">
                     <input type="text" name="login_admin" id="login" placeholder="login = admin" class="form-control mr-sm-2" aria-label="Search">

@@ -20,6 +20,9 @@ if(isset($_POST['login_admin']) && isset($_POST['password_admin'])){
     if(password_verify($password, $donnee['password_admin'])){
         $_SESSION['id_admin'] = $donnee['id'];
     }
+    else{
+        $_SESSION['false_admin'] = true;
+    }
     
     $check_login -> closeCursor();  
 }
