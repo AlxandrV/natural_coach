@@ -1,6 +1,5 @@
 <?php
 session_start();
-//var_dump($_SESSION['false_admin']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,18 +87,7 @@ session_start();
         else{
             ?>
             <main class="container">
-            <div class="d-flex justify-content-between" id="log-out">
-            <?php
-                // Boucle liste des pages
-                echo '<ul class="pagination">';
-                echo '<li class="page-item page-link">Page</li>';
-                for($i = 1; $i <= ceil($total[0] / $limit); $i++){
-                    ?>
-                    <li class="page-item"><a href="index.php?page=<?php echo $i ?>" class="page-link"><?php echo $i ?></a></li>
-                    <?php
-                }
-                echo '</ul>';
-                ?>
+            <div class="d-flex justify-content-end" id="log-out">
                 </p>
             
                 <!-- Form log out admin -->
@@ -114,6 +102,27 @@ session_start();
             $excursion -> execute();
             ?>
 
+            <div class="d-flex justify-content-between align-items-center">
+                <?php
+                // Boucle liste des pages
+                echo '<ul class="pagination">';
+                echo '<li class="page-item page-link">Page</li>';
+                for($i = 1; $i <= ceil($total[0] / $limit); $i++){
+                    ?>
+                    <li class="page-item"><a href="index.php?page=<?php echo $i ?>" class="page-link"><?php echo $i ?></a></li>
+                    <?php
+                }
+                echo '</ul>';
+                ?>
+                <!-- Button trigger modal form add excursion -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_add_excursion">Ajouter une excursion</button>
+                    
+                <!-- Form pour lien vers liste des membres -->
+                <form action="membre.php" id="list_member">
+                    <button type="submit" name="status" value="randonneur" class="btn btn-info">Liste des randonneurs</button>
+                    <button type="submit" name="status" value="guide" class="btn btn-info">Liste des guides</button>
+                </form>
+            </div>
             <!-- Liste excursion et form pour suppression -->
             <form action="ajout.php" method="POST">
                 <ul class="list-group" id="list">
@@ -138,59 +147,70 @@ session_start();
                 </ul>
             </form>
 
-            <!-- Form pour ajout d'éxcursion -->
-            <div id="add_form">
-                <p>Ajouter une nouvelle excursion :</p>
-                <form action="ajout.php" method="POST" id="reqAjaxSubmit">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="name_excursion">Nom de la randonnée</label>
-                            <input type="text" name="nom_excursion" id="name_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="date_depart_excursion">date de départ</label>
-                            <input type="date" name="date_depart" id="date_depart_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="date_arrivee_excursion">date de d'arrivée</label>
-                            <input type="date" name="date_arrivee" id="date_arrivee_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="point_depart_excursion">Point de départ</label>
-                            <input type="text" name="point_depart" id="point_depart_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="point_arrviee_excursion">Point de d'arrivée</label>
-                            <input type="text" name="point_arrivee" id="point_arrviee_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="region_depart_excursion">Région de départ</label>
-                            <input type="text" name="region_depart" id="region_depart_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="region_arrivee_excursion">Région d'arrivée</label>
-                            <input type="text" name="region_arrivee" id="region_arrivee_excursion" class="form-control" required></input>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="tarif">Tarif</label>
-                            <input type="number" name="tarif" min="0" step="any" id="tarif" class="form-control" required></input>
-                        </div>
-                        <input type="submit" value="Créer" class="btn btn-primary">                
+            <!-- Modal Form pour ajout d'éxcursion -->
+            <div class="modal fade" id="form_add_excursion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter une nouvelle excursion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        <div id="add_form">
+                            <form action="ajout.php" method="POST" id="reqAjaxSubmit">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="name_excursion">Nom de la randonnée</label>
+                                        <input type="text" name="nom_excursion" id="name_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="date_depart_excursion">date de départ</label>
+                                        <input type="date" name="date_depart" id="date_depart_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="date_arrivee_excursion">date de d'arrivée</label>
+                                        <input type="date" name="date_arrivee" id="date_arrivee_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="point_depart_excursion">Point de départ</label>
+                                        <input type="text" name="point_depart" id="point_depart_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="point_arrviee_excursion">Point de d'arrivée</label>
+                                        <input type="text" name="point_arrivee" id="point_arrviee_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="region_depart_excursion">Région de départ</label>
+                                        <input type="text" name="region_depart" id="region_depart_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="region_arrivee_excursion">Région d'arrivée</label>
+                                        <input type="text" name="region_arrivee" id="region_arrivee_excursion" class="form-control" required></input>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="tarif">Tarif</label>
+                                        <input type="number" name="tarif" min="0" step="any" id="tarif" class="form-control" required></input>
+                                    </div>
+                                    <input type="submit" value="Créer" class="btn btn-primary">                
+                                </div>
+                            </form>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Form pour lien vers liste des membres -->
-            <form action="membre.php" id="list_member">
-                <button type="submit" name="status" value="randonneur" class="btn btn-info">Liste des randonneurs</button>
-                <button type="submit" name="status" value="guide" class="btn btn-info">Liste des guides</button>
-            </form>
         <?php
         }
         $excursion -> closeCursor();
         $count -> closeCursor();
         ?>  
-        <!-- Modal -->
+        <!-- Modal delete  -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
