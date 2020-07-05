@@ -60,34 +60,97 @@ if(!isset($_SESSION['id_admin'])){
                 </form>
                 <?php
             }
-            echo '<form action="ajout.php" method="POST">';
-            echo '<ul class="list-group">';
-            $req = $bdd -> query('SELECT * FROM randonneur');
-            // Liste tout les randonneurs inscrits
-            while($donnees = $req -> fetch()){
-                echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . $donnees['nom'] . '</span>, prénom : <span>' . $donnees['prenom'] . '</span></p>';
-                
-                // Si $_SESSION['id_group'] existe
-                if(isset($_SESSION['id_group'])){
-                    // Vérifie si inscrit au groupe correspondant à $_SESSION['id_group']
-                    $verification_inscription = $bdd -> prepare('SELECT r_grp.id_groupe AS id_groupe, r.id FROM randonneur_groupe AS r_grp INNER JOIN randonneur AS r ON r.id = r_grp.id_randonneur WHERE r.id = ' . $donnees['id'] . ' AND r_grp.id_groupe = ?');
-                    $verification_inscription -> execute(array($id_groupe));
-                    $validate = $verification_inscription -> fetch();
-                }
-                
-                // Si non inscrit au groupe et place max non atteinte
-                if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
-                    echo '<button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></li>';
-                    $verification_inscription -> closeCursor();
-                }
-
-                // Si page simple pour lister randonneur
-                elseif(!isset($_POST['add_randonneur'])){
-                    echo '<button type="button" name="delete_randonneur" value="' . $donnees['id'] . '" class="btn btn-danger" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></li>';
-                }
-            }
-            $req -> closeCursor();
             ?>
+            <form action="ajout.php" method="POST">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <?php
+                $i = 1;
+                $req = $bdd -> query('SELECT * FROM randonneur');
+                // Liste tout les randonneurs inscrits
+                while($donnees = $req -> fetch()){
+                    ?>
+                    <tr>
+                        <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                        <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                        <?php
+                        
+                        // Si $_SESSION['id_group'] existe
+                        if(isset($_SESSION['id_group'])){
+                            // Vérifie si inscrit au groupe correspondant à $_SESSION['id_group']
+                            $verification_inscription = $bdd -> prepare('SELECT r_grp.id_groupe AS id_groupe, r.id FROM randonneur_groupe AS r_grp INNER JOIN randonneur AS r ON r.id = r_grp.id_randonneur WHERE r.id = ' . $donnees['id'] . ' AND r_grp.id_groupe = ?');
+                            $verification_inscription -> execute(array($id_groupe));
+                            $validate = $verification_inscription -> fetch();
+                        }
+                        
+                        // Si non inscrit au groupe et place max non atteinte
+                        if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
+                            // <td> button retirer du groupe </td>
+                            echo '<td><button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></td>';
+                            $verification_inscription -> closeCursor();
+                        }
+                        
+                        // Si page simple pour lister randonneur
+                        elseif(!isset($_POST['add_randonneur'])){
+                            ?>
+                            <td><button type="button" name="update_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_guide<?php echo $i ?>">Modifier</button></td>
+                            <td><button type="button" name="delete_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></td>
+
+
+                            <?php
+                        }
+                        ?>
+                        <!-- Modal update excursion -->
+                        <div class="modal fade" id="form_update_guide<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Modifier le guide</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="add_form">
+                                        <form action="ajout.php" method="POST">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="name_excursion">Nom</label>
+                                                    <input type="text" name="upd_nom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['nom']) ?>" required></input>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="name_excursion">Prénom</label>
+                                                    <input type="text" name="upd_prenom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['prenom']) ?>" required></input>
+                                                </div>
+                                                <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($donnees['id']) ?>">
+                                                <input type="submit" value="Enregistrer" class="btn btn-primary">                
+                                            </div>
+                                        </form>
+                                </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    <?php
+                    $i++;
+            }
+                $req -> closeCursor();
+                ?>
+                </tbody>
+            </table>
             </ul>
             </form>
             <?php
@@ -118,30 +181,94 @@ if(!isset($_SESSION['id_admin'])){
                 </form>
             <?php
             }
-            echo '<form action="ajout.php" method="POST">';
-            echo '<ul class="list-group">';
-            
-            // Liste les guides
-            $req = $bdd -> query('SELECT * FROM guide');
-            while($donnees = $req -> fetch()){
-                echo '<li class="list-group-item d-flex justify-content-between"><p>Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, prénom : <span>' . htmlspecialchars($donnees['prenom']) . '</span>, numéro de téléphone : <span>' . htmlspecialchars($donnees['num_tel']) . '</span></p>';
-                
-                // Vérifie si déjà inscrit à un groupe
-                if(isset($_SESSION['id_group'])){
-                    $verification_inscription = $bdd -> prepare('SELECT g_grp.id_groupe AS id_groupe FROM guide AS g INNER JOIN guide_groupe AS g_grp ON g.id = g_grp.id_guide WHERE g.id = ' . $donnees['id'] . ' AND g_grp.id_groupe = ?');
-                    $verification_inscription -> execute(array($id_groupe));
-                    $validate = $verification_inscription -> fetch();
-                }
-                // Si non inscrit au groupe
-                if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
-                    echo '<button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></li>';
-                    $verification_inscription -> closeCursor();          
-                }  
-                // Si page simple pour lister guide
-                elseif(!isset($_POST['add_guide'])){
-                    echo '<button type="button" name="delete_guide" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></li>';
-                }
-            }
+            ?>
+            <form action="ajout.php" method="POST">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nuémro de téléphone</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php            
+                    // Liste les guides
+                    $i = 1;
+                    $req = $bdd -> query('SELECT * FROM guide');
+                    while($donnees = $req -> fetch()){
+                        ?>
+                        <tr>
+                            <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                            <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                            <td><?php echo htmlspecialchars($donnees['num_tel']) ?></td>
+                            <?php                        
+                            // Vérifie si déjà inscrit à un groupe
+                            if(isset($_SESSION['id_group'])){
+                                $verification_inscription = $bdd -> prepare('SELECT g_grp.id_groupe AS id_groupe FROM guide AS g INNER JOIN guide_groupe AS g_grp ON g.id = g_grp.id_guide WHERE g.id = ' . $donnees['id'] . ' AND g_grp.id_groupe = ?');
+                                $verification_inscription -> execute(array($id_groupe));
+                                $validate = $verification_inscription -> fetch();
+                            }
+                            // Si non inscrit au groupe
+                            if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
+                                // <td> button  retirer du groupe </td>
+                                echo '<td><button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></td>';
+                                $verification_inscription -> closeCursor();          
+                            }  
+                            // Si page simple pour lister guide
+                            elseif(!isset($_POST['add_guide'])){
+                                ?>
+                                <td><button type="button" name="update_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_guide<?php echo $i ?>">Modifier</button></td>
+                                <td><button type="button" name="delete_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></td>
+
+
+                                <?php
+                            }
+                            ?>
+                            <!-- Modal update excursion -->
+                            <div class="modal fade" id="form_update_guide<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Modifier le guide</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="add_form">
+                                            <form action="ajout.php" method="POST">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="name_excursion">Nom</label>
+                                                        <input type="text" name="upd_nom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['nom']) ?>" required></input>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="name_excursion">Prénom</label>
+                                                        <input type="text" name="upd_prenom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['prenom']) ?>" required></input>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="name_excursion">Numéro de téléphone</label>
+                                                        <input type="text" name="upd_phone_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['num_tel']) ?>" required></input>
+                                                    </div>
+                                                    <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($donnees['id']) ?>">
+                                                    <input type="submit" value="Enregistrer" class="btn btn-primary">                
+                                                </div>
+                                            </form>
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                        <?php
+                        $i++;
+                    }
             
             $req -> closeCursor();
             ?>

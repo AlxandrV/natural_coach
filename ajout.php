@@ -142,6 +142,43 @@ if(isset($_POST['add_nom_guide']) && isset($_POST['add_prenom_guide']) && isset(
     header('Location: membre.php?status=guide');
 }
 
+// Modification de randonneur
+if(isset($_POST['upd_nom_guide']) && isset($_POST['upd_prenom_guide']) && isset($_POST['id'])){
+    $nom = $_POST['upd_nom_guide'];
+    $prenom = $_POST['upd_prenom_guide'];
+    $id = $_POST['id'];
+
+    $req = $bdd -> prepare('UPDATE randonneur SET nom = :nom, prenom = :prenom WHERE id = :id');
+    
+    $req -> bindParam('nom', $nom, PDO::PARAM_STR);
+    $req -> bindParam('prenom', $prenom, PDO::PARAM_STR);
+    $req -> bindValue('id', $id, PDO::PARAM_INT);
+
+    $req -> execute();
+    $req -> closeCursor();
+
+    header('Location: membre.php?status=randonneur');
+}
+
+// Modification de guide
+if(isset($_POST['upd_nom_guide']) && isset($_POST['upd_prenom_guide']) && isset($_POST['upd_phone_guide']) && isset($_POST['id'])){
+    $nom = $_POST['upd_nom_guide'];
+    $prenom = $_POST['upd_prenom_guide'];
+    $phone = $_POST['upd_phone_guide'];
+    $id = $_POST['id'];
+
+    $req = $bdd -> prepare('UPDATE guide SET nom = :nom, prenom = :prenom, num_tel = :phone WHERE id = :id');
+    
+    $req -> bindParam('nom', $nom, PDO::PARAM_STR);
+    $req -> bindParam('prenom', $prenom, PDO::PARAM_STR);
+    $req -> bindValue('phone', $phone, PDO::PARAM_INT);
+    $req -> bindValue('id', $id, PDO::PARAM_INT);
+
+    $req -> execute();
+    $req -> closeCursor();
+    header('Location: membre.php?status=guide');
+}
+
 // Suppression de randonneur
 if(isset($_POST['delete_randonneur'])){
 
