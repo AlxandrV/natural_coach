@@ -116,6 +116,22 @@ if(isset($_POST['delete-groupe'])){
     header('Location: index.php');
 }
 
+// Modifier un groupe
+if(isset($_POST['place_max']) && $_POST['id']){
+    $max = $_POST['place_max'];
+    $id = $_POST['id'];
+
+    $req = $bdd -> prepare('UPDATE groupe SET place_max = :place_max WHERE id = :id');
+    
+    $req -> bindValue('place_max', $max, PDO::PARAM_INT);
+    $req -> bindValue('id', $id, PDO::PARAM_INT);
+
+    $req -> execute();
+    $req -> closeCursor();
+
+    header('Location: excursion.php?n=' . $_SESSION['id_excursion']);
+}
+
 // Ajout de randonneur
 if(isset($_POST['add_nom_randonneur']) && isset($_POST['add_prenom_randonneur'])){
 

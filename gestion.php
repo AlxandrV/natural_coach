@@ -39,13 +39,31 @@ if(!isset($_SESSION['id_admin'])){
         $req -> execute(array($id));
 
         // Liste les randonneurs inscrit
-        echo '<ul class="list-group">';
-        while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">' . htmlspecialchars($donnees['nom']) . ', ' . htmlspecialchars($donnees['prenom']) . '</li>';
-        }
-        $req -> closeCursor();
-        echo '</ul>';
+        ?>
+        <!-- Table liste des randonneurs inscrits -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                </tr>
+            </thead>
+            <tbody>
 
+            <?php
+            while($donnees = $req -> fetch()){
+                ?>
+                <tr>
+                    <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                    <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                </tr>
+                <?php
+            }
+            $req -> closeCursor();
+            ?>    
+            </tbody>
+        </table>
+        <?php
         // Compte le nombre d'inscrit dans le groupe
         $req = $bdd -> prepare('SELECT g.place_max AS max_place, COUNT(r.id_groupe) AS max_inscrit FROM groupe AS g INNER JOIN randonneur_groupe AS r WHERE g.id = ? AND r.id_groupe = ?');
         $req -> execute(array($id, $id));
@@ -62,18 +80,43 @@ if(!isset($_SESSION['id_admin'])){
 
         <?php
         }
+        else{
+            echo '<p>Nombre de d\'inscrit maximum atteint</p>';
+        }
+        
         echo '<br/>';
         // Récupération des guides inscrit au groupe selon le $_GET
         $req = $bdd -> prepare('SELECT * FROM groupe AS grp INNER JOIN guide_groupe AS g_grp ON grp.id = g_grp.id_groupe INNER JOIN guide AS g ON g_grp.id_guide = g.id  WHERE grp.id = ?');
         $req -> execute(array($id));
+        ?>
 
-        // Liste les guides inscrit
-        echo '<ul class="list-group">';
-        while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">' . htmlspecialchars($donnees['nom']) . ', ' . htmlspecialchars($donnees['prenom']) . ', ' . htmlspecialchars($donnees['num_tel']) . '</li>';
-        }
-        $req -> closeCursor();
-        echo '</ul>';
+        <!-- Table liste des randonneurs inscrits -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Téléphone</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            while($donnees = $req -> fetch()){
+                ?>
+                <tr>
+                    <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                    <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                    <td><?php echo htmlspecialchars($donnees['num_tel']) ?></td>
+
+                </tr>
+                <?php
+            }
+            $req -> closeCursor();
+            ?>    
+            </tbody>
+        </table>
+        <?php
         ?>
 
         <!-- Form pour ajout de guide au groupe -->

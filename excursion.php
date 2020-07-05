@@ -25,19 +25,49 @@ if(!isset($_SESSION['id_admin'])){
         catch (Exeption $e){
             die('Erreur : ' . $e -> getmessage());
         }
-        
-        echo '<ul class="list-group">';
-        $id = $_GET['n'];
-        $_SESSION['id_excursion'] = $_GET['n'];
-        $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
-        $req -> execute(array($id));
-        // Afiiche l'excursion selon le $_GET
-        while($donnees = $req -> fetch()){
-            echo '<li class="list-group-item">Nom : ' . htmlspecialchars($donnees['nom']) . ', date départ : ' . htmlspecialchars($donnees['date_depart']) . ', date retour : ' . htmlspecialchars($donnees['date_retour']) . ', depart : ' . htmlspecialchars($donnees['point_depart']) . ', arrivée : ' . htmlspecialchars($donnees['point_arrivee']) .', tarif : ' . htmlspecialchars($donnees['tarif']) . '€.</li>';
-        }
-        $req -> closeCursor();
-        echo '</ul>';
-        
+        ?>
+        <!-- Table excursion -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Date de départ</th>
+                    <th scope="col">Date de retour</th>
+                    <th scope="col">Ville de départ</th>
+                    <th scope="col">Ville d'arrivée</th>
+                    <th scope="col">Région de départ</th>
+                    <th scope="col">Région d'arrivée</th>
+                    <th scope="col">Tarif</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $id = $_GET['n'];
+                $_SESSION['id_excursion'] = $_GET['n'];
+                $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
+                $req -> execute(array($id));
+                // Afiiche l'excursion selon le $_GET
+                while($donnees = $req -> fetch()){
+                    ?>
+                    <tr>
+                        <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                        <td><?php echo htmlspecialchars($donnees['date_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['date_retour']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['point_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['point_arrivee']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['region_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['region_arrivee']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['tarif']) ?></td>
+                    </tr>
+                    <?php
+                }
+                $req -> closeCursor();
+                ?>
+            </tbody>
+        </table>
+
+        <?php      
         // Formulaire d'ajout de goupe
         $req = $bdd -> prepare('SELECT * FROM groupe WHERE id_excursion = ?');
         $req -> execute(array($id));
@@ -53,16 +83,67 @@ if(!isset($_SESSION['id_admin'])){
             </div>
         </form>
         <form action="ajout.php" method="POST">
-            <ul class="list-group">
+            <!-- Table liste des groupes -->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Groupe</th>
+                        <th scope="col">Place maximum</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
                 <?php
-                $i = 1;
-                // liste les groupe pour l'excursion
-                while($donnees = $req -> fetch()){
-                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></li>';
-                    $i++;
-                }
-                ?>    
-            </ul>    
+                    $i = 1;
+                    // liste les groupe pour l'excursion
+                    while($donnees = $req -> fetch()){
+                        ?>
+                        <tr>
+                            <th scope="row"><?php echo $i ?></th>
+                            <td><?php echo htmlspecialchars($donnees['place_max']) ?></td>
+                            <td><a href="gestion.php?groupe=<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-info">Voir les inscrits</a></td>
+                            <td><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
+                            <td><button type="button" name="update_groupe" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_groupe<?php echo $i ?>">Modifier</button></td>
+                        </tr>
+                        <!-- Modal update randonneur -->
+                        <div class="modal fade" id="form_update_groupe<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Modifier le nombe de place maximum</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="add_form">
+                                        <form action="ajout.php" method="POST">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="place_max">Place maximum</label>
+                                                    <input type="text" name="place_max" id="place_max" class="form-control" value="<?php echo htmlspecialchars($donnees['place_max']) ?>" required></input>
+                                                </div>
+                                                <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($donnees['id']) ?>">
+                                                <input type="submit" value="Enregistrer" class="btn btn-primary">                
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php
+                        $i++;
+                    }
+                    ?>    
+                </tbody>
+            </table>
         </form>
         <!-- Modal -->
         <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
