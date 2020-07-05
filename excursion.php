@@ -58,14 +58,14 @@ if(!isset($_SESSION['id_admin'])){
                 $i = 1;
                 // liste les groupe pour l'excursion
                 while($donnees = $req -> fetch()){
-                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></li>';
+                    echo '<li class="list-group-item d-flex justify-content-around"><p>Groupe ' . $i . ', place maximum : ' . htmlspecialchars($donnees['place_max']) . '</p> <a href="gestion.php?groupe=' . htmlspecialchars($donnees['id']) . '" class="badge badge-pill badge-info d-flex align-items-center">Voir les paricipants</a><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></li>';
                     $i++;
                 }
                 ?>    
             </ul>    
         </form>
         <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">

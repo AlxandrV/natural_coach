@@ -2,7 +2,7 @@
 let submit_button;
 
 // Récupération du button cliquer
-$('#exampleModalCenter').on('shown.bs.modal', function (event) {
+$('#modal_delete').on('shown.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     console.log(button);
     submit_button = button[0];

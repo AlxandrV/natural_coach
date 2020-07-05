@@ -99,18 +99,18 @@ if(!isset($_SESSION['id_admin'])){
                             $verification_inscription -> closeCursor();
                         }
                         
-                        // Si page simple pour lister randonneur
+                        // Si page simple pour lister randonneur, button modifier et supprimer
                         elseif(!isset($_POST['add_randonneur'])){
                             ?>
-                            <td><button type="button" name="update_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_guide<?php echo $i ?>">Modifier</button></td>
-                            <td><button type="button" name="delete_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></td>
+                            <td><button type="button" name="update_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_randonneur<?php echo $i ?>">Modifier</button></td>
+                            <td><button type="button" name="delete_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
 
 
                             <?php
                         }
                         ?>
-                        <!-- Modal update excursion -->
-                        <div class="modal fade" id="form_update_guide<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <!-- Modal update randonneur -->
+                        <div class="modal fade" id="form_update_randonneur<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -125,11 +125,11 @@ if(!isset($_SESSION['id_admin'])){
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <label for="name_excursion">Nom</label>
-                                                    <input type="text" name="upd_nom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['nom']) ?>" required></input>
+                                                    <input type="text" name="upd_nom_randonneur" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['nom']) ?>" required></input>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label for="name_excursion">Prénom</label>
-                                                    <input type="text" name="upd_prenom_guide" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['prenom']) ?>" required></input>
+                                                    <input type="text" name="upd_prenom_randonneur" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['prenom']) ?>" required></input>
                                                 </div>
                                                 <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($donnees['id']) ?>">
                                                 <input type="submit" value="Enregistrer" class="btn btn-primary">                
@@ -217,11 +217,11 @@ if(!isset($_SESSION['id_admin'])){
                                 echo '<td><button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></td>';
                                 $verification_inscription -> closeCursor();          
                             }  
-                            // Si page simple pour lister guide
+                            // Si page simple pour lister guide, button modiffier et supprimer
                             elseif(!isset($_POST['add_guide'])){
                                 ?>
                                 <td><button type="button" name="update_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_guide<?php echo $i ?>">Modifier</button></td>
-                                <td><button type="button" name="delete_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button></td>
+                                <td><button type="button" name="delete_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
 
 
                                 <?php
@@ -278,7 +278,7 @@ if(!isset($_SESSION['id_admin'])){
         }
         ?>
         <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">

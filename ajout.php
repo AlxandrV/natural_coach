@@ -143,9 +143,9 @@ if(isset($_POST['add_nom_guide']) && isset($_POST['add_prenom_guide']) && isset(
 }
 
 // Modification de randonneur
-if(isset($_POST['upd_nom_guide']) && isset($_POST['upd_prenom_guide']) && isset($_POST['id'])){
-    $nom = $_POST['upd_nom_guide'];
-    $prenom = $_POST['upd_prenom_guide'];
+if(isset($_POST['upd_nom_randonneur']) && isset($_POST['upd_prenom_randonneur']) && isset($_POST['id'])){
+    $nom = $_POST['upd_nom_randonneur'];
+    $prenom = $_POST['upd_prenom_randonneur'];
     $id = $_POST['id'];
 
     $req = $bdd -> prepare('UPDATE randonneur SET nom = :nom, prenom = :prenom WHERE id = :id');

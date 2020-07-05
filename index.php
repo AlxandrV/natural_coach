@@ -81,7 +81,7 @@ session_start();
             while($donnees = $excursion -> fetch()){
                 echo '<li class="list-group-item">Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, date départ : <span>' . htmlspecialchars($donnees['date_depart']) . '</span>, date retour : <span>' . htmlspecialchars($donnees['date_retour']) . '</span>, depart : <span>' . htmlspecialchars($donnees['point_depart']) . '</span>, arrivée : <span>' . htmlspecialchars($donnees['point_arrivee']) .'</span>, tarif : <span>' . htmlspecialchars($donnees['tarif']) . '</span>.</li>';
             }
-            echo '<ul>';
+            echo '</ul>';
         }
         // Fonctionnalité pour admin
         else{
@@ -125,7 +125,6 @@ session_start();
             </div>
             <!-- Liste excursion et form pour suppression -->
             <form action="ajout.php" method="POST">
-                <!-- <ul class="list-group" id="list"> -->
                 <!-- Table liste excursion -->
                 <table class="table table-hover">
                     <thead>
@@ -157,12 +156,13 @@ session_start();
                             <td><?php echo htmlspecialchars($donnees['region_arrivee']) ?></td>
                             <td><?php echo htmlspecialchars($donnees['tarif']) ?></td>
                             <td>
+                            <!-- Liste fonctionnalité pour chaque excursion -->
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <button type="button" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter" >Supprimer</button>
+                                        <button type="button" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="dropdown-item" data-toggle="modal" data-target="#modal_delete" >Supprimer</button>
                                         <a href="excursion.php?n=<?php echo htmlspecialchars($donnees['id']) ?>" class="dropdown-item">Détails et groupe</a>
                                         <button type="button" class="dropdown-item" data-toggle="modal" data-target="#form_update_excursion<?php echo $i ?>">Modifier</button>
 
@@ -186,7 +186,7 @@ session_start();
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="add_form">
+                                    <div id="update_form">
                                         <form action="ajout.php" method="POST">
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
@@ -240,14 +240,13 @@ session_start();
                     ?>
                     </tbody>
                 </table>
-                <template id="reponse_ajax">
+                <!-- <template id="reponse_ajax">
                     <li class="list-group-item row d-flex justify-content-between" id="clone">
                         <p class="col-12">Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
                         <button type="submit" name="delete" value="" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button>
                         <a href="" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
                     </li>
-                </template>
-                </ul>
+                </template> -->
             </form>
 
             <!-- Modal Form pour ajout d'excursion -->
@@ -262,7 +261,7 @@ session_start();
                     </div>
                     <div class="modal-body">
                         <div id="add_form">
-                            <form action="ajout.php" method="POST" id="reqAjaxSubmit">
+                            <form action="ajout.php" method="POST">
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="name_excursion">Nom de la randonnée</label>
@@ -309,7 +308,7 @@ session_start();
             </div>
 
             <!-- Modal delete  -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
