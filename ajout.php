@@ -158,6 +158,39 @@ if(isset($_POST['add_nom_guide']) && isset($_POST['add_prenom_guide']) && isset(
     header('Location: membre.php?status=guide');
 }
 
+// Retirer un randonneur d'un groupe
+if(isset($_POST['remove_randonneur'])){
+    $id_randonneur = $_POST['remove_randonneur'];
+    $id_groupe = $_SESSION['id_group'];
+
+    $req = $bdd -> prepare('DELETE FROM randonneur_groupe WHERE id_groupe = :id_groupe AND id_randonneur = :id_randonneur');
+
+    $req -> bindValue('id_groupe', $id_groupe, PDO::PARAM_INT);
+    $req -> bindValue('id_randonneur', $id_randonneur, PDO::PARAM_INT);
+
+    $req -> execute();
+    $req -> closeCursor();
+
+    header('Location: gestion.php?groupe=' . $id_groupe);
+}
+
+// Retirer un guide d'un groupe
+if(isset($_POST['remove_guide'])){
+    $id_guide = $_POST['remove_guide'];
+    $id_groupe = $_SESSION['id_group'];
+
+    $req = $bdd -> prepare('DELETE FROM guide_groupe WHERE id_groupe = :id_groupe AND id_guide = :id_guide');
+
+    $req -> bindValue('id_groupe', $id_groupe, PDO::PARAM_INT);
+    $req -> bindValue('id_guide', $id_guide, PDO::PARAM_INT);
+
+    $req -> execute();
+    $req -> closeCursor();
+
+    header('Location: gestion.php?groupe=' . $id_groupe);
+}
+
+
 // Modification de randonneur
 if(isset($_POST['upd_nom_randonneur']) && isset($_POST['upd_prenom_randonneur']) && isset($_POST['id'])){
     $nom = $_POST['upd_nom_randonneur'];

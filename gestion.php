@@ -46,6 +46,7 @@ if(!isset($_SESSION['id_admin'])){
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -54,8 +55,11 @@ if(!isset($_SESSION['id_admin'])){
             while($donnees = $req -> fetch()){
                 ?>
                 <tr>
-                    <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
-                    <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                    <form action="ajout.php" method="POST">
+                        <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                        <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                        <td><button type="submit" name="remove_randonneur" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger">Retirer</button></td>
+                    </form>
                 </tr>
                 <?php
             }
@@ -83,7 +87,7 @@ if(!isset($_SESSION['id_admin'])){
         else{
             echo '<p>Nombre de d\'inscrit maximum atteint</p>';
         }
-        
+
         echo '<br/>';
         // Récupération des guides inscrit au groupe selon le $_GET
         $req = $bdd -> prepare('SELECT * FROM groupe AS grp INNER JOIN guide_groupe AS g_grp ON grp.id = g_grp.id_groupe INNER JOIN guide AS g ON g_grp.id_guide = g.id  WHERE grp.id = ?');
@@ -97,6 +101,7 @@ if(!isset($_SESSION['id_admin'])){
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Téléphone</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -105,10 +110,12 @@ if(!isset($_SESSION['id_admin'])){
             while($donnees = $req -> fetch()){
                 ?>
                 <tr>
-                    <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
-                    <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
-                    <td><?php echo htmlspecialchars($donnees['num_tel']) ?></td>
-
+                    <form action="ajout.php" method="POST">
+                        <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                        <td><?php echo htmlspecialchars($donnees['prenom']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['num_tel']) ?></td>
+                        <td><button type="submit" name="remove_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger">Retirer</button></td>
+                    </form>
                 </tr>
                 <?php
             }

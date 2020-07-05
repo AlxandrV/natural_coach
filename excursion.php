@@ -73,10 +73,9 @@ if(!isset($_SESSION['id_admin'])){
         $req -> execute(array($id));
         ?>
         <form action="ajout.php" method="POST" id="add_form">
-            <p for="nombre_place">Place max</p>
             <div class="form-row">
                 <div class="form-group d-flex" id="correctif">
-                    <input type="text" name="nombre_place" class="form-control" required></input>
+                    <input type="text" name="nombre_place" class="form-control" placeholder="Place maximum" required></input>
                     <input type="hidden" name="id" value="<?php echo $_GET['n']?>">
                     <input type="submit" value="Créer un nouveau groupe" class="btn btn-primary">
                 </div>
@@ -104,7 +103,7 @@ if(!isset($_SESSION['id_admin'])){
                             <th scope="row"><?php echo $i ?></th>
                             <td><?php echo htmlspecialchars($donnees['place_max']) ?></td>
                             <td><a href="gestion.php?groupe=<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-info">Voir les inscrits</a></td>
-                            <td><button type="button" name="delete-groupe" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
+                            <td><button type="button" name="delete-groupe" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
                             <td><button type="button" name="update_groupe" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_groupe<?php echo $i ?>">Modifier</button></td>
                         </tr>
                         <!-- Modal update randonneur -->
