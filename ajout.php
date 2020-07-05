@@ -34,14 +34,15 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
         'prix' => $tarif));
 
     // Réponse Ajax
-    $reponse_ajax = $bdd -> query('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
-    //var_dump($reponse_ajax)
-    $donnees = $reponse_ajax -> fetch();
-    echo json_encode($donnees);
+    // $reponse_ajax = $bdd -> query('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
+    // //var_dump($reponse_ajax)
+    // $donnees = $reponse_ajax -> fetch();
+    // echo json_encode($donnees);
 
-    $reponse_ajax -> closeCursor();
+    // $reponse_ajax -> closeCursor();
     $req -> closeCursor();
-    
+
+    header('Location: index.php');
 }
 
 // Supprime une entrée dans 'excursion'
@@ -52,6 +53,37 @@ if(isset($_POST['delete'])){
     $req -> closeCursor();
     header('Location: index.php');
 }
+
+// Modification d'une excursion
+if(!empty($_POST['upd_nom_excursion']) && !empty($_POST['upd_date_depart']) && !empty($_POST['upd_date_arrivee']) && !empty($_POST['upd_point_depart']) && !empty($_POST['upd_point_arrivee']) && !empty($_POST['upd_region_depart']) && !empty($_POST['upd_region_arrivee']) && !empty($_POST['upd_tarif']) && !empty($_POST['id'])){
+
+    $nom_excursion = $_POST['upd_nom_excursion'];
+    $date_depart = $_POST['upd_date_depart'];
+    $date_arrivee = $_POST['upd_date_arrivee'];
+    $point_depart = $_POST['upd_point_depart'];
+    $point_arrivee = $_POST['upd_point_arrivee'];
+    $region_depart = $_POST['upd_region_depart'];
+    $region_arrivee = $_POST['upd_region_arrivee'];
+    $tarif = $_POST['upd_tarif'];
+    $id = $_POST['id'];
+    
+    $req = $bdd -> prepare('UPDATE excursion SET nom = :nom, date_depart = :date_depart, date_retour = :date_retour, point_depart = :point_depart, region_depart = :region_depart, point_arrivee = :point_arrivee, region_arrivee = :region_arrivee, tarif = :tarif WHERE id = :id');
+    
+    $req -> bindParam('nom', $nom_excursion, PDO::PARAM_STR);
+    $req -> bindParam('date_depart', $date_depart, PDO::PARAM_STR);
+    $req -> bindParam('date_retour', $date_arrivee, PDO::PARAM_STR);
+    $req -> bindParam('point_depart', $point_depart, PDO::PARAM_STR);
+    $req -> bindParam('region_depart', $region_depart, PDO::PARAM_STR);
+    $req -> bindParam('point_arrivee', $point_arrivee, PDO::PARAM_STR);
+    $req -> bindParam('region_arrivee', $region_arrivee, PDO::PARAM_STR);
+    $req -> bindParam('tarif', $tarif, PDO::PARAM_STR);
+    $req -> bindValue('id', $id, PDO::PARAM_INT);
+
+    $req -> execute();
+    
+    header('Location: index.php');
+}
+
 
 // Création de groupe
 if(isset($_POST['nombre_place']) && isset($_POST['id'])){

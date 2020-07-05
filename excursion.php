@@ -46,7 +46,7 @@ if(!isset($_SESSION['id_admin'])){
             <p for="nombre_place">Place max</p>
             <div class="form-row">
                 <div class="form-group d-flex" id="correctif">
-                    <input type="text" name="nombre_place" class="form-control"></input>
+                    <input type="text" name="nombre_place" class="form-control" required></input>
                     <input type="hidden" name="id" value="<?php echo $_GET['n']?>">
                     <input type="submit" value="Créer un nouveau groupe" class="btn btn-primary">
                 </div>
