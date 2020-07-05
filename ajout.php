@@ -80,7 +80,17 @@ if(!empty($_POST['upd_nom_excursion']) && !empty($_POST['upd_date_depart']) && !
     $req -> bindValue('id', $id, PDO::PARAM_INT);
 
     $req -> execute();
-    
+
+    // // Réponse Ajax
+    // $reponse_ajax = $bdd -> prepare('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
+    // //var_dump($reponse_ajax)
+    // $donnees = $reponse_ajax -> fetch();
+    // echo json_encode($donnees);
+
+    // $reponse_ajax -> closeCursor();
+
+
+    $req -> closeCursor();
     header('Location: index.php');
 }
 

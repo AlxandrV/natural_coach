@@ -174,64 +174,6 @@ session_start();
                             
                             
                         </li> -->
-                        <!-- Modal update excursion -->
-                        <div class="modal fade" id="form_update_excursion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Modifier l'excursion</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="add_form">
-                                        <form action="ajout.php" method="POST" id="reqAjaxSubmit">
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12">
-                                                    <label for="name_excursion">Nom de la randonnée</label>
-                                                    <input type="text" name="upd_nom_excursion" id="name_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['nom']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="date_depart_excursion">Date de départ</label>
-                                                    <input type="date" name="upd_date_depart" id="date_depart_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['date_depart']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="date_arrivee_excursion">Date d'arrivée</label>
-                                                    <input type="date" name="upd_date_arrivee" id="date_arrivee_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['date_retour']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="point_depart_excursion">Ville de départ</label>
-                                                    <input type="text" name="upd_point_depart" id="point_depart_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['point_depart']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="point_arrviee_excursion">Ville d'arrivée</label>
-                                                    <input type="text" name="upd_point_arrivee" id="point_arrviee_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['point_arrivee']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="region_depart_excursion">Région de départ</label>
-                                                    <input type="text" name="upd_region_depart" id="region_depart_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['region_depart']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="region_arrivee_excursion">Région d'arrivée</label>
-                                                    <input type="text" name="upd_region_arrivee" id="region_arrivee_excursion" class="form-control" value="<?php echo htmlspecialchars($donnees['region_arrivee']) ?>" required></input>
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label for="tarif">Tarif</label>
-                                                    <input type="number" name="upd_tarif" min="0" step="any" id="tarif" class="form-control" value="<?php echo htmlspecialchars($donnees['tarif']) ?>" required></input>
-                                                </div>
-                                                <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($donnees['id']) ?>">
-                                                <input type="submit" value="Enregistrer" class="btn btn-primary">                
-                                            </div>
-                                        </form>
-                                </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <?php
                     }
@@ -328,6 +270,66 @@ session_start();
                 </div>
             </div>
         </div>
+
+        <!-- Modal update excursion -->
+        <div class="modal fade" id="form_update_excursion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modifier l'excursion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="add_form">
+                        <form action="ajout.php" method="POST" id="reqAjaxUpdate">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="name_excursion">Nom de la randonnée</label>
+                                    <input type="text" name="upd_nom_excursion" id="name_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="date_depart_excursion">Date de départ</label>
+                                    <input type="date" name="upd_date_depart" id="date_depart_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="date_arrivee_excursion">Date d'arrivée</label>
+                                    <input type="date" name="upd_date_arrivee" id="date_arrivee_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="point_depart_excursion">Ville de départ</label>
+                                    <input type="text" name="upd_point_depart" id="point_depart_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="point_arrviee_excursion">Ville d'arrivée</label>
+                                    <input type="text" name="upd_point_arrivee" id="point_arrviee_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="region_depart_excursion">Région de départ</label>
+                                    <input type="text" name="upd_region_depart" id="region_depart_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="region_arrivee_excursion">Région d'arrivée</label>
+                                    <input type="text" name="upd_region_arrivee" id="region_arrivee_excursion" class="form-control" value="" required></input>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="tarif">Tarif</label>
+                                    <input type="number" name="upd_tarif" min="0" step="any" id="tarif" class="form-control" value="" required></input>
+                                </div>
+                                <input type="hidden" name="id" id="id" value="">
+                                <input type="submit" value="Enregistrer" class="btn btn-primary">                
+                            </div>
+                        </form>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </main>
     <script src="script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
