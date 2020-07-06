@@ -15,7 +15,20 @@ if(!isset($_SESSION['id_admin'])){
 </head>
 <body>
     <main class="container">
-        <p class="navbar-nav nav-item"><a href="index.php" class="nav-link">Retour à l'acceuil</a></p>
+        <div class="d-flex justify-content-between" id="log-out">
+            <h5>Natural Coach</h5>
+            <!-- Form log out admin -->
+            <form action="identification.php" method="POST">
+                <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
+            </form>
+        </div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Acceuil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Groupe</li>
+            </ol>
+        </nav>
         <?php
         // Connexion BDD
         try{

@@ -16,14 +16,26 @@ if(!isset($_SESSION['id_admin'])){
 </head>
 <body>
     <main class="container">
-        <p class=" nav-item d-flex row"><a href="index.php" class="nav-link">Retour à l'acceuil</a>
-        <?php
-            if(isset($_POST['add_randonneur']) || isset($_POST['add_guide'])){
-                echo '<a href="excursion.php?n=' . $_SESSION['id_excursion'] . '" class="nav-link">Liste des groupes</a>';
-                echo '<a href="gestion.php?groupe=' . $_SESSION['id_group'] . '" class="nav-link">Liste des inscrits</a>';
-            }
-        ?>
-        </p>
+        <div class="d-flex justify-content-between" id="log-out">
+            <h5>Natural Coach</h5>
+            <!-- Form log out admin -->
+            <form action="identification.php" method="POST">
+                <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
+            </form>
+        </div>
+
+        <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.php">Acceuil</a></li>
+                    <?php
+                        if(isset($_POST['add_guide']) || isset($_POST['add_randonneur'])){
+                            echo '<li class="breadcrumb-item"><a href="excursion.php?n=' . $_SESSION['id_excursion'] . '">Groupe</a></li>';
+                            echo '<li class="breadcrumb-item"><a href="gestion.php?groupe=' . $_SESSION['id_group'] . '">Inscrits</a></li>';
+                        }
+                    ?>
+                    <li class="breadcrumb-item active" aria-current="page">Membres</li>
+                </ol>
+            </nav>
         <?php
         // Connexion BDD
         try{
@@ -94,8 +106,8 @@ if(!isset($_SESSION['id_admin'])){
                         
                         // Si non inscrit au groupe et place max non atteinte
                         if(isset($_POST['add_randonneur']) && $validate['id_groupe'] !== $id_groupe){
-                            // <td> button retirer du groupe </td>
-                            echo '<td><button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></td>';
+                            echo '<td><button type="submit" name="add_randonneur_group" value="' . $donnees['id'] . '" class="btn btn-primary">Ajouter</button></td>'; 
+                            echo '<td></td>';
                             $verification_inscription -> closeCursor();
                         }
                         
@@ -213,8 +225,8 @@ if(!isset($_SESSION['id_admin'])){
                             }
                             // Si non inscrit au groupe
                             if(isset($_POST['add_guide']) && $validate['id_groupe'] !== $id_groupe){
-                                // <td> button  retirer du groupe </td>
                                 echo '<td><button type="submit" name="add_guide_group" value="' . htmlspecialchars($donnees['id']) . '" class="btn btn-primary">Ajouter</button></td>';
+                                echo '<td> </td>';
                                 $verification_inscription -> closeCursor();          
                             }  
                             // Si page simple pour lister guide, button modiffier et supprimer

@@ -59,8 +59,6 @@ session_start();
                 </form>
             </div>
             <h1>Natural Coach</h1>
-            <p>Bienvenue.</p>
-            <p>Nous effectuons plusieurs randonnée à travers le pays, vous trouverez la liste de prochaines que nous organisons ici bas, pour vous insrcire merci de nous contacter au : <a href="tel:+164896327">01 64 89 63 27</a>.</p>
         <?php
             // Boucle liste des pages
             echo '<ul class="pagination">';
@@ -73,23 +71,55 @@ session_start();
             echo '</ul>';
 
             // Liste des excursions
-            echo '<ul class="list-group">';
             $excursion = $bdd -> prepare('SELECT * FROM  excursion ORDER BY id  DESC LIMIT :debut, :limit');
             $excursion -> bindValue('debut', $debut, PDO::PARAM_INT);
             $excursion -> bindValue('limit', $limit, PDO::PARAM_INT);
             $excursion -> execute();
-            while($donnees = $excursion -> fetch()){
-                echo '<li class="list-group-item">Nom : <span>' . htmlspecialchars($donnees['nom']) . '</span>, date départ : <span>' . htmlspecialchars($donnees['date_depart']) . '</span>, date retour : <span>' . htmlspecialchars($donnees['date_retour']) . '</span>, depart : <span>' . htmlspecialchars($donnees['point_depart']) . '</span>, arrivée : <span>' . htmlspecialchars($donnees['point_arrivee']) .'</span>, tarif : <span>' . htmlspecialchars($donnees['tarif']) . '</span>.</li>';
-            }
-            echo '</ul>';
+            ?>
+            <!-- Table liste excursion -->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Date de départ</th>
+                        <th scope="col">Date de retour</th>
+                        <th scope="col">Ville de départ</th>
+                        <th scope="col">Ville d'arrivée</th>
+                        <th scope="col">Région de départ</th>
+                        <th scope="col">Région d'arrivée</th>
+                        <th scope="col">Tarif</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <?php
+                $i = 1;
+                while($donnees = $excursion -> fetch()){
+                    ?>
+                    <tr>
+                        <th scope="row"><?php echo htmlspecialchars($donnees['nom']) ?></th>
+                        <td><?php echo htmlspecialchars($donnees['date_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['date_retour']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['point_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['point_arrivee']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['region_depart']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['region_arrivee']) ?></td>
+                        <td><?php echo htmlspecialchars($donnees['tarif']) ?></td>
+                        <td>
+                    </tr>
+                <?php
+                }
+                ?>
+                </tbody>
+            </table>
+        <?php
         }
         // Fonctionnalité pour admin
         else{
             ?>
-            <main class="container">
-            <div class="d-flex justify-content-end" id="log-out">
-                </p>
-            
+            <div class="d-flex justify-content-between" id="log-out">
+                <h5>Natural Coach</h5>
                 <!-- Form log out admin -->
                 <form action="identification.php" method="POST">
                     <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
@@ -102,10 +132,10 @@ session_start();
             $excursion -> execute();
             ?>
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <?php
                 // Boucle liste des pages
-                echo '<ul class="pagination">';
+                echo '<ul class="pagination" id="pagination">';
                 echo '<li class="page-item page-link">Page</li>';
                 for($i = 1; $i <= ceil($total[0] / $limit); $i++){
                     ?>
@@ -238,8 +268,6 @@ session_start();
                         $i++;
                     }
                     ?>
-                    </tbody>
-                </table>
                 <!-- <template id="reponse_ajax">
                     <li class="list-group-item row d-flex justify-content-between" id="clone">
                         <p class="col-12">Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
