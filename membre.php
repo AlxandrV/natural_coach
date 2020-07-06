@@ -23,11 +23,12 @@ if(!isset($_SESSION['id_admin'])){
                 <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
             </form>
         </div>
-
+        <!-- Breadcrumbs -->
         <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php">Acceuil</a></li>
                     <?php
+                        // Si liens depuis page gestion.php
                         if(isset($_POST['add_guide']) || isset($_POST['add_randonneur'])){
                             echo '<li class="breadcrumb-item"><a href="excursion.php?n=' . $_SESSION['id_excursion'] . '">Groupe</a></li>';
                             echo '<li class="breadcrumb-item"><a href="gestion.php?groupe=' . $_SESSION['id_group'] . '">Inscrits</a></li>';
@@ -73,6 +74,7 @@ if(!isset($_SESSION['id_admin'])){
                 <?php
             }
             ?>
+            <!-- Table liste des randonneurs -->
             <form action="ajout.php" method="POST">
             <table class="table table-hover">
                 <thead>
@@ -88,7 +90,7 @@ if(!isset($_SESSION['id_admin'])){
                 <?php
                 $i = 1;
                 $req = $bdd -> query('SELECT * FROM randonneur');
-                // Liste tout les randonneurs inscrits
+                // Liste tout les randonneurs membres
                 while($donnees = $req -> fetch()){
                     ?>
                     <tr>
@@ -188,12 +190,12 @@ if(!isset($_SESSION['id_admin'])){
                             <input type="submit" value="Ajouter un guide" class="btn btn-primary">
                         </div>
 
-
                     </div>
                 </form>
             <?php
             }
             ?>
+            <!-- Table liste des guides memebres -->
             <form action="ajout.php" method="POST">
                 <table class="table table-hover">
                     <thead>
@@ -234,12 +236,10 @@ if(!isset($_SESSION['id_admin'])){
                                 ?>
                                 <td><button type="button" name="update_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_guide<?php echo $i ?>">Modifier</button></td>
                                 <td><button type="button" name="delete_guide" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
-
-
                                 <?php
                             }
                             ?>
-                            <!-- Modal update excursion -->
+                            <!-- Modal update guide -->
                             <div class="modal fade" id="form_update_guide<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -289,7 +289,7 @@ if(!isset($_SESSION['id_admin'])){
             <?php
         }
         ?>
-        <!-- Modal -->
+        <!-- Modal supprimer -->
         <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">

@@ -22,7 +22,7 @@ if(!isset($_SESSION['id_admin'])){
                 <button type="submit" name="log_out" value="log_out" class="btn btn-outline-success">Se déconnecter</button>
             </form>
         </div>
-
+        <!-- Breadcrumbs -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Acceuil</a></li>
@@ -49,8 +49,6 @@ if(!isset($_SESSION['id_admin'])){
         $_SESSION['id_group'] = $id;
         $req = $bdd -> prepare('SELECT * FROM groupe AS g INNER JOIN randonneur_groupe AS r_grp ON g.id = r_grp.id_groupe INNER JOIN randonneur AS r ON r_grp.id_randonneur = r.id  WHERE g.id = ?');
         $req -> execute(array($id));
-
-        // Liste les randonneurs inscrit
         ?>
         <!-- Table liste des randonneurs inscrits -->
         <table class="table table-hover">
@@ -80,7 +78,7 @@ if(!isset($_SESSION['id_admin'])){
             </tbody>
         </table>
         <?php
-        // Compte le nombre d'inscrit dans le groupe
+        // Compte le nombre de randonneur inscrit dans le groupe
         $req = $bdd -> prepare('SELECT g.place_max AS max_place, COUNT(r.id_groupe) AS max_inscrit FROM groupe AS g INNER JOIN randonneur_groupe AS r WHERE g.id = ? AND r.id_groupe = ?');
         $req -> execute(array($id, $id));
         
@@ -96,6 +94,7 @@ if(!isset($_SESSION['id_admin'])){
 
         <?php
         }
+        // Si place maximum atteinte
         else{
             echo '<p>Nombre de d\'inscrit maximum atteint</p>';
         }

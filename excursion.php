@@ -23,6 +23,7 @@ if(!isset($_SESSION['id_admin'])){
             </form>
         </div>
 
+        <!-- Breadcrumbs -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Acceuil</a></li>
@@ -39,7 +40,7 @@ if(!isset($_SESSION['id_admin'])){
             die('Erreur : ' . $e -> getmessage());
         }
         ?>
-        <!-- Table excursion -->
+        <!-- Table de l'excursion -->
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -56,11 +57,11 @@ if(!isset($_SESSION['id_admin'])){
             <tbody>
 
                 <?php
+                // Afiiche l'excursion selon le $_GET
                 $id = $_GET['n'];
                 $_SESSION['id_excursion'] = $_GET['n'];
                 $req = $bdd -> prepare('SELECT * FROM excursion WHERE id = ?');
                 $req -> execute(array($id));
-                // Afiiche l'excursion selon le $_GET
                 while($donnees = $req -> fetch()){
                     ?>
                     <tr>
@@ -95,7 +96,7 @@ if(!isset($_SESSION['id_admin'])){
             </div>
         </form>
         <form action="ajout.php" method="POST">
-            <!-- Table liste des groupes -->
+            <!-- Table liste des groupes selon l'excursion -->
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -115,11 +116,14 @@ if(!isset($_SESSION['id_admin'])){
                         <tr>
                             <th scope="row"><?php echo $i ?></th>
                             <td><?php echo htmlspecialchars($donnees['place_max']) ?></td>
+                            <!-- Link vers les inscrits -->
                             <td><a href="gestion.php?groupe=<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-info">Voir les inscrits</a></td>
+                            <!-- Button trigger modal supprimer -->
                             <td><button type="button" name="delete-groupe" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete">Supprimer</button></td>
+                            <!-- Button trigger modal update -->
                             <td><button type="button" name="update_groupe" value="<?php echo htmlspecialchars($donnees['id']) ?>" class="btn btn-warning" data-toggle="modal" data-target="#form_update_groupe<?php echo $i ?>">Modifier</button></td>
                         </tr>
-                        <!-- Modal update randonneur -->
+                        <!-- Modal update groupe -->
                         <div class="modal fade" id="form_update_groupe<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -157,7 +161,7 @@ if(!isset($_SESSION['id_admin'])){
                 </tbody>
             </table>
         </form>
-        <!-- Modal -->
+        <!-- Modal supprimer -->
         <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">

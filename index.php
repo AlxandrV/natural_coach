@@ -59,8 +59,8 @@ session_start();
                 </form>
             </div>
             <h1>Natural Coach</h1>
-        <?php
-            // Boucle liste des pages
+            <?php
+            // Boucle pagination
             echo '<ul class="pagination">';
             echo '<li class="page-item page-link">Page</li>';
             for($i = 1; $i <= ceil($total[0] / $limit); $i++){
@@ -70,13 +70,13 @@ session_start();
             }
             echo '</ul>';
 
-            // Liste des excursions
+            // Requète liste des excursions
             $excursion = $bdd -> prepare('SELECT * FROM  excursion ORDER BY id  DESC LIMIT :debut, :limit');
             $excursion -> bindValue('debut', $debut, PDO::PARAM_INT);
             $excursion -> bindValue('limit', $limit, PDO::PARAM_INT);
             $excursion -> execute();
             ?>
-            <!-- Table liste excursion -->
+            <!-- Table liste excursion non admin -->
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -126,6 +126,7 @@ session_start();
                 </form>
             </div>
             <?php
+            // Requère liste de excursions
             $excursion = $bdd -> prepare('SELECT * FROM  excursion ORDER BY id  DESC LIMIT :debut, :limit');
             $excursion -> bindValue('debut', $debut, PDO::PARAM_INT);
             $excursion -> bindValue('limit', $limit, PDO::PARAM_INT);
@@ -134,7 +135,7 @@ session_start();
 
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <?php
-                // Boucle liste des pages
+                // Boucle pagination
                 echo '<ul class="pagination" id="pagination">';
                 echo '<li class="page-item page-link">Page</li>';
                 for($i = 1; $i <= ceil($total[0] / $limit); $i++){
@@ -153,7 +154,7 @@ session_start();
                     <button type="submit" name="status" value="guide" class="btn btn-info">Liste des guides</button>
                 </form>
             </div>
-            <!-- Liste excursion et form pour suppression -->
+            <!-- Liste excursion et fonctionnalité admin -->
             <form action="ajout.php" method="POST">
                 <!-- Table liste excursion -->
                 <table class="table table-hover">
@@ -192,19 +193,18 @@ session_start();
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <!-- Button supprimer -->
                                         <button type="button" name="delete" value="<?php echo htmlspecialchars($donnees['id'])?>" class="dropdown-item" data-toggle="modal" data-target="#modal_delete" >Supprimer</button>
+                                        <!-- Links détails et groupe -->
                                         <a href="excursion.php?n=<?php echo htmlspecialchars($donnees['id']) ?>" class="dropdown-item">Détails et groupe</a>
+                                        <!-- Button trigger modal update excursion -->
                                         <button type="button" class="dropdown-item" data-toggle="modal" data-target="#form_update_excursion<?php echo $i ?>">Modifier</button>
 
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <!-- <li class="list-group-item row d-flex justify-content-between">
-                            <p class="col-12"> Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
-                            
-                            
-                        </li> -->
+
                         <!-- Modal update excursion -->
                         <div class="modal fade" id="form_update_excursion<?php echo $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -268,13 +268,6 @@ session_start();
                         $i++;
                     }
                     ?>
-                <!-- <template id="reponse_ajax">
-                    <li class="list-group-item row d-flex justify-content-between" id="clone">
-                        <p class="col-12">Nom : <span></span>, date départ : <span></span>, date retour : <span></span>, depart : <span></span>, arrivée : <span></span>, tarif : <span></span>€.</p>
-                        <button type="submit" name="delete" value="" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Supprimer</button>
-                        <a href="" class="badge badge-pill badge-info d-flex align-items-center">Détails et groupe</a>
-                    </li>
-                </template> -->
             </form>
 
             <!-- Modal Form pour ajout d'excursion -->
@@ -358,7 +351,6 @@ session_start();
         $count -> closeCursor();
         ?>  
     </main>
-    <script src="script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
