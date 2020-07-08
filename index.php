@@ -35,7 +35,7 @@ session_start();
         $total = $count -> fetch();
 
         // Défini le début du compte des éléments dans excursion selon la page
-        $limit = 5;
+        $limit = 10;
         $debut = $currentPage * $limit - $limit;
 
         // Login pour admin

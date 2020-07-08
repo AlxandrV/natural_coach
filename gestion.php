@@ -96,7 +96,7 @@ if(!isset($_SESSION['id_admin'])){
         }
         // Si place maximum atteinte
         else{
-            echo '<p>Nombre de d\'inscrit maximum atteint</p>';
+            echo '<p>Nombre d\'inscrit maximum atteint</p>';
         }
 
         echo '<br/>';

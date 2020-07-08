@@ -33,13 +33,6 @@ if(!empty($_POST['nom_excursion']) && !empty($_POST['date_depart']) && !empty($_
         'region_arv' => $region_arrivee,
         'prix' => $tarif));
 
-    // Réponse Ajax
-    // $reponse_ajax = $bdd -> query('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
-    // //var_dump($reponse_ajax)
-    // $donnees = $reponse_ajax -> fetch();
-    // echo json_encode($donnees);
-
-    // $reponse_ajax -> closeCursor();
     $req -> closeCursor();
 
     header('Location: index.php');
@@ -80,15 +73,6 @@ if(!empty($_POST['upd_nom_excursion']) && !empty($_POST['upd_date_depart']) && !
     $req -> bindValue('id', $id, PDO::PARAM_INT);
 
     $req -> execute();
-
-    // // Réponse Ajax
-    // $reponse_ajax = $bdd -> prepare('SELECT * FROM `excursion` ORDER BY id DESC LIMIT 1');
-    // //var_dump($reponse_ajax)
-    // $donnees = $reponse_ajax -> fetch();
-    // echo json_encode($donnees);
-
-    // $reponse_ajax -> closeCursor();
-
 
     $req -> closeCursor();
     header('Location: index.php');
@@ -271,7 +255,3 @@ if(isset($_POST['add_guide_group']) && isset($_SESSION['id_group'])){
     $req -> closeCursor();
     header('Location: gestion.php?groupe=' . $id_group);
 }
-
-/*else{
-    header('Location: index.php');
-}*/
